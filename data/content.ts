@@ -711,6 +711,6 @@ export const contactPageData: ContactPageData = {
     ],
     location: {
         title: "Ubicación",
-        embedUrl: "__MAP_PLACEHOLDER__"
+        embedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d214576.29675977648!2d-68.97280095!3d-32.8894587!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x967e093ec897241f%3A0x8eee5206e281af38!2sMendoza%2C%20Argentina!5e0!3m2!1ses-419!2sar!4v1"
     }
 };

@@ -2,15 +2,15 @@ import Image from 'next/image';
 import { Facebook, Instagram, Linkedin, ChevronRight, MapPin, Mail, Phone } from 'lucide-react';
 import Link from 'next/link';
 import { siteConfig } from '@/data/content';
- 
+
 export default function Footer() {
     const year = new Date().getFullYear();
- 
+
     return (
         <footer className="bg-primary text-white pt-20 pb-10 border-t border-white/10">
             <div className="container mx-auto px-6">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-16">
- 
+
                     {/* Columna 1: Logo + descripción + redes */}
                     <div className="col-span-1">
                         <Link href="/">
@@ -46,7 +46,7 @@ export default function Footer() {
                             ))}
                         </div>
                     </div>
-  
+
                     {/* Columna 2: Servicios */}
                     <div>
                         <h3 className="text-sm font-bold mb-6 text-secondary uppercase tracking-widest">Servicios</h3>
@@ -77,7 +77,7 @@ export default function Footer() {
                             </li>
                         </ul>
                     </div>
-  
+
                     {/* Columna 3: Cobertura */}
                     <div>
                         <h3 className="text-sm font-bold mb-6 text-secondary uppercase tracking-widest">Cobertura</h3>
@@ -90,7 +90,7 @@ export default function Footer() {
                             ))}
                         </ul>
                     </div>
-  
+
                     {/* Columna 4: Contacto */}
                     <div>
                         <h3 className="text-sm font-bold mb-6 text-secondary uppercase tracking-widest">Contacto</h3>
@@ -109,21 +109,8 @@ export default function Footer() {
                             </li>
                         </ul>
                     </div>
-  
-                    {/* Columna 3: Contacto */}
-                    <div>
-                        <h3 className="text-sm font-bold mb-6 text-secondary uppercase tracking-widest">Contacto</h3>
-                        <ul className="space-y-4 text-sm text-gray-400">
-                            <li>
-                                <a href={`mailto:${siteConfig.contactEmail}`} className="flex items-center hover:text-white transition-colors duration-200">
-                                    <Mail size={15} className="mr-3 text-tertiary shrink-0" />
-                                    {siteConfig.contactEmail}
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
- 
+
                 {/* Bottom bar */}
                 <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-400">
                     <p>&copy; {year} CuyoSmart SAS. Todos los derechos reservados.</p>

@@ -18,7 +18,6 @@ export default function Header() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // FIX: Cerrar el menú móvil solo en el cliente para evitar errores de prerenderizado/linting.
     useEffect(() => {
         if (typeof window !== 'undefined') {
             requestAnimationFrame(() => { setIsOpen(false); });
@@ -40,42 +39,52 @@ export default function Header() {
                     : 'bg-primary shadow-md'
                 }`}
         >
-            {/* Top Bar - Contacto Rápido */}
+            {/* Top Bar */}
             <div className="bg-primary text-white text-xs py-2 hidden md:block border-b border-white/10">
                 <div className="container mx-auto px-6 flex justify-between items-center">
-                    <div className="flex gap-6">
-                            {siteConfig.socialMedia.facebook && !siteConfig.socialMedia.facebook.startsWith('__') && (
-                                <a href={siteConfig.socialMedia.facebook} target="_blank" rel="noreferrer" aria-label="Facebook"
-                                   className="text-gray-400 hover:text-secondary transition-colors">
-                                    <Facebook size={14} />
-                                </a>
-                            )}
-                            {siteConfig.socialMedia.instagram && !siteConfig.socialMedia.instagram.startsWith('__') && (
-                                <a href={siteConfig.socialMedia.instagram} target="_blank" rel="noreferrer" aria-label="Instagram"
-                                   className="text-gray-400 hover:text-secondary transition-colors">
-                                    <Instagram size={14} />
-                                </a>
-                            )}
-                        </div>
-                        <div className="text-gray-400 font-bold uppercase tracking-wider text-[10px] flex items-center gap-4">
-                            <a href={`mailto:${siteConfig.contactEmail}`} className="hover:text-white transition-colors">{siteConfig.contactEmail}</a>
-                        </div>
-                    <div className="text-gray-400 font-bold uppercase tracking-wider text-[10px] flex items-center gap-4">
-                        <span>Líderes en Techado y Aislación Industrial</span>
-                        <span className="flex items-center gap-2">
-                            {siteConfig.socialMedia.facebook && !siteConfig.socialMedia.facebook.startsWith('__') && (
-                                <a href={siteConfig.socialMedia.facebook} target="_blank" rel="noreferrer" aria-label="Facebook"
-                                   className="text-gray-400 hover:text-secondary transition-colors">
-                                    <Facebook size={14} />
-                                </a>
-                            )}
-                            {siteConfig.socialMedia.instagram && !siteConfig.socialMedia.instagram.startsWith('__') && (
-                                <a href={siteConfig.socialMedia.instagram} target="_blank" rel="noreferrer" aria-label="Instagram"
-                                   className="text-gray-400 hover:text-secondary transition-colors">
-                                    <Instagram size={14} />
-                                </a>
-                            )}
-                        </span>
+
+                    {/* Izquierda: teléfono + email */}
+                    <div className="flex items-center gap-5">
+                        <a
+                            href={`tel:${siteConfig.phone}`}
+                            className="flex items-center gap-1.5 text-gray-300 hover:text-white transition-colors"
+                        >
+                            <Phone size={13} className="text-secondary" />
+                            {siteConfig.phoneDisplay}
+                        </a>
+                        <a
+                            href={`mailto:${siteConfig.contactEmail}`}
+                            className="flex items-center gap-1.5 text-gray-300 hover:text-white transition-colors"
+                        >
+                            <Mail size={13} className="text-secondary" />
+                            {siteConfig.contactEmail}
+                        </a>
+                    </div>
+
+                    {/* Derecha: redes sociales */}
+                    <div className="flex items-center gap-3">
+                        {siteConfig.socialMedia.facebook && !siteConfig.socialMedia.facebook.startsWith('__') && (
+                            <a
+                                href={siteConfig.socialMedia.facebook}
+                                target="_blank"
+                                rel="noreferrer"
+                                aria-label="Facebook"
+                                className="text-gray-400 hover:text-secondary transition-colors"
+                            >
+                                <Facebook size={14} />
+                            </a>
+                        )}
+                        {siteConfig.socialMedia.instagram && !siteConfig.socialMedia.instagram.startsWith('__') && (
+                            <a
+                                href={siteConfig.socialMedia.instagram}
+                                target="_blank"
+                                rel="noreferrer"
+                                aria-label="Instagram"
+                                className="text-gray-400 hover:text-secondary transition-colors"
+                            >
+                                <Instagram size={14} />
+                            </a>
+                        )}
                     </div>
                 </div>
             </div>
@@ -106,7 +115,6 @@ export default function Header() {
                                         }`}
                                 >
                                     {item.label}
-                                    {/* Animated underline */}
                                     <span
                                         className={`absolute bottom-0 left-0 h-0.5 bg-secondary transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'
                                             }`}
