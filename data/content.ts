@@ -690,16 +690,6 @@ export const contactPageData: ContactPageData = {
             link: `${WHATSAPP_LINK}?text=Hola%20CuyoSmart,%20quiero%20hacer%20una%20consulta`,
             cta: "Enviar WhatsApp Ahora"
         },
-        admin: {
-            title: "Presupuestos Formales",
-            email: ADMIN_EMAIL,
-                        hours: "Presupuestos sin cargo. Coordinamos visita técnica."
-        },
-        location: {
-            title: "Oficina y Taller",
-            address: ADDRESS,
-            coverage: "Lun a Vie de 8:00 a 18:00 hs. Gran Mendoza, Zona Este y Valle de Uco."
-        }
     },
     form: {
         title: "Solicitar Presupuesto Online",
@@ -721,6 +711,6 @@ export const contactPageData: ContactPageData = {
     ],
     location: {
         title: "Ubicación",
-        embedUrl: GOOGLE_MAPS_EMBED_URL
+        embedUrl: "__MAP_PLACEHOLDER__"
     }
 };

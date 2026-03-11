@@ -118,7 +118,7 @@ export default function Contacto() {
             </section>
 
             {/* 4. Ubicación (Mapa) */}
-            {contactPageData.location && contactPageData.location.embedUrl && !contactPageData.location.embedUrl.startsWith('__') && (
+            {contactPageData.location && contactPageData.location.embedUrl && !contactPageData.location.embedUrl.startsWith('__') && contactPageData.location.embedUrl !== "__MAP_PLACEHOLDER__" && (
                 <section className="w-full h-[420px] relative bg-gray-200">
                     <iframe
                         src={contactPageData.location.embedUrl}
