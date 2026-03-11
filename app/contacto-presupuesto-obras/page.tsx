@@ -92,7 +92,38 @@ export default function Contacto() {
                 </div>
             </section>
 
-            {/* 3. Formulario de Cotización */}
+            {/* 3. Consultas Rápidas por WhatsApp */}
+            <section className="py-16 bg-white">
+                <div className="container mx-auto px-6 max-w-5xl">
+                    <div className="text-center mb-10">
+                        <h2 className="text-primary text-3xl font-bold font-montserrat uppercase tracking-wider">
+                            Consultas Rápidas por WhatsApp
+                        </h2>
+                        <p className="text-gray-600 mt-2">Haga click en una opción para iniciar la conversación con un mensaje prellenado.</p>
+                        <div className="w-12 h-1 bg-secondary mx-auto mt-4 rounded-full" />
+                    </div>
+                    <div className="flex flex-wrap justify-center gap-4">
+                        {[
+                            "Me interesa el servicio de Reparación de Techos.",
+                            "Necesito presupuesto para Aislación Térmica.",
+                            "Quisiera consultar sobre Obras Civiles.",
+                            "Quiero saber la disponibilidad de equipos.",
+                        ].map((pregunta, index) => (
+                            <a
+                                key={index}
+                                href={`${siteConfig.whatsappLink}?text=${encodeURIComponent(pregunta)}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="bg-gray-100 hover:bg-secondary/10 text-gray-700 hover:text-primary border border-gray-200 hover:border-secondary font-medium py-3 px-5 rounded-full transition-all duration-200 text-sm shadow-sm hover:shadow-md whitespace-nowrap"
+                            >
+                                {pregunta}
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* 4. Formulario de Cotización */}
             <section className="py-20 bg-background-secondary">
                 <div className="container mx-auto px-6">
                     <ContactForm
