@@ -41,6 +41,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # Copiar el entrypoint que reemplaza placeholders en runtime
 COPY --chown=nextjs:nodejs scripts/entrypoint.sh ./entrypoint.sh
+RUN chmod +x ./entrypoint.sh
 
 USER nextjs
 
