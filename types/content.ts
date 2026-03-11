@@ -215,12 +215,12 @@ export interface ContactPageData {
             link: string;
             cta: string;
         };
-        admin: {
+        admin?: {
             title: string;
             email: string;
             hours: string;
         };
-        location: {
+        location?: {
             title: string;
             address: string;
             coverage: string;
