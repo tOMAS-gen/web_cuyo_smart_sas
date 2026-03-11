@@ -46,7 +46,7 @@ export default function Footer() {
                             ))}
                         </div>
                     </div>
- 
+  
                     {/* Columna 2: Servicios */}
                     <div>
                         <h3 className="text-sm font-bold mb-6 text-secondary uppercase tracking-widest">Servicios</h3>
@@ -77,21 +77,8 @@ export default function Footer() {
                             </li>
                         </ul>
                     </div>
- 
-                    {/* Columna 3: Cobertura */}
-                    <div>
-                        <h3 className="text-sm font-bold mb-6 text-secondary uppercase tracking-widest">Cobertura</h3>
-                        <ul className="space-y-3 text-sm text-gray-400">
-                            {['Gran Mendoza', 'Valle de Uco', 'Zona Este'].map(item => (
-                                <li key={item} className="flex items-start">
-                                    <MapPin size={15} className="mr-2 text-tertiary shrink-0 mt-0.5" />
-                                    <span>{item}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
- 
-                    {/* Columna 4: Contacto */}
+  
+                    {/* Columna 3: Contacto */}
                     <div>
                         <h3 className="text-sm font-bold mb-6 text-secondary uppercase tracking-widest">Contacto</h3>
                         <ul className="space-y-4 text-sm text-gray-400">
@@ -106,10 +93,6 @@ export default function Footer() {
                                     <Phone size={15} className="mr-3 text-tertiary shrink-0" />
                                     {siteConfig.phoneDisplay}
                                 </a>
-                            </li>
-                            <li className="flex items-start">
-                                <MapPin size={15} className="mr-3 text-tertiary mt-0.5 shrink-0" />
-                                {siteConfig.address}
                             </li>
                         </ul>
                     </div>
