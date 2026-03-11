@@ -10,7 +10,7 @@ import { SiteConfig, HomeData, TechosData, InsulationPageData, ObrasData, Projec
 // reconstruir la imagen.
 // ---------------------------------------------------------------------------
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "__NEXT_PUBLIC_SITE_URL__";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://cuyosmart.com.ar";
 const PHONE_NUMBER = process.env.NEXT_PUBLIC_PHONE_NUMBER || "__NEXT_PUBLIC_PHONE_NUMBER__";
 const PHONE_DISPLAY = process.env.NEXT_PUBLIC_PHONE_DISPLAY || "__NEXT_PUBLIC_PHONE_DISPLAY__";
 const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "__NEXT_PUBLIC_CONTACT_EMAIL__";
