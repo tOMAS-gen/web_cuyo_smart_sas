@@ -14,7 +14,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://cuyosmart.com.ar";
 const PHONE_NUMBER = process.env.NEXT_PUBLIC_PHONE_NUMBER || "__NEXT_PUBLIC_PHONE_NUMBER__";
 const PHONE_DISPLAY = process.env.NEXT_PUBLIC_PHONE_DISPLAY || "__NEXT_PUBLIC_PHONE_DISPLAY__";
 const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "__NEXT_PUBLIC_CONTACT_EMAIL__";
-const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL || "__NEXT_PUBLIC_ADMIN_EMAIL__";
+const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL || CONTACT_EMAIL;
 const ADDRESS = process.env.NEXT_PUBLIC_ADDRESS || "__NEXT_PUBLIC_ADDRESS__";
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "__NEXT_PUBLIC_WHATSAPP_NUMBER__";
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
@@ -693,7 +693,7 @@ export const contactPageData: ContactPageData = {
         admin: {
             title: "Presupuestos Formales",
             email: ADMIN_EMAIL,
-            hours: "Envíenos sus planos o pliegos por correo."
+                        hours: "Presupuestos sin cargo. Coordinamos visita técnica."
         },
         location: {
             title: "Oficina y Taller",
