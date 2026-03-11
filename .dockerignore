@@ -27,4 +27,5 @@ README.md
 
 # Otros
 home_trace.json.gz
-scripts/
+scripts/*
+!scripts/entrypoint.sh
