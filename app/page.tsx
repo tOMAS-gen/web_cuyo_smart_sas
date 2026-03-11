@@ -274,6 +274,27 @@ export default function Home() {
                 <a href={`tel:${siteConfig.phone}`} className="hover:text-white transition-colors">{siteConfig.phoneDisplay}</a>
               </span>
             </div>
+
+            {/* Redes sociales */}
+            <div className="flex justify-center gap-4 mt-8">
+              {[
+                { Icon: LucideIcons.Facebook, label: 'Facebook', url: siteConfig.socialMedia.facebook },
+                { Icon: LucideIcons.Instagram, label: 'Instagram', url: siteConfig.socialMedia.instagram },
+              ].filter(({ url }) => url && !url.startsWith('__')).map(({ Icon, label, url }) => (
+                <a
+                  key={label}
+                  href={url}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={label}
+                  className="w-11 h-11 rounded-lg border border-white/15 flex items-center justify-center text-white/50
+                             hover:text-secondary hover:border-secondary hover:scale-110 hover:bg-secondary/5
+                             transition-all duration-200"
+                >
+                  <Icon size={20} strokeWidth={1.5} />
+                </a>
+              ))}
+            </div>
           </div>
         </section>
       </main>

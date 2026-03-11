@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Phone, Mail } from 'lucide-react';
+import { Menu, X, Phone, Mail, Facebook, Instagram } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -57,7 +57,23 @@ export default function Header() {
                             <Mail size={14} className="text-secondary" /> {siteConfig.contactEmail}
                         </a>
                     </div>
-                    <div className="text-gray-400 font-bold uppercase tracking-wider text-[10px]">Líderes en Techado y Aislación Industrial</div>
+                    <div className="text-gray-400 font-bold uppercase tracking-wider text-[10px] flex items-center gap-4">
+                        <span>Líderes en Techado y Aislación Industrial</span>
+                        <span className="flex items-center gap-2">
+                            {siteConfig.socialMedia.facebook && !siteConfig.socialMedia.facebook.startsWith('__') && (
+                                <a href={siteConfig.socialMedia.facebook} target="_blank" rel="noreferrer" aria-label="Facebook"
+                                   className="text-gray-400 hover:text-secondary transition-colors">
+                                    <Facebook size={14} />
+                                </a>
+                            )}
+                            {siteConfig.socialMedia.instagram && !siteConfig.socialMedia.instagram.startsWith('__') && (
+                                <a href={siteConfig.socialMedia.instagram} target="_blank" rel="noreferrer" aria-label="Instagram"
+                                   className="text-gray-400 hover:text-secondary transition-colors">
+                                    <Instagram size={14} />
+                                </a>
+                            )}
+                        </span>
+                    </div>
                 </div>
             </div>
 
