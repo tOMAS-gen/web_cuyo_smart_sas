@@ -267,8 +267,7 @@ export default function Home() {
 
             <div className="flex flex-col md:flex-row justify-center gap-8 text-gray-400 text-sm font-sans">
               <span className="flex items-center justify-center gap-2">
-                <LucideIcons.Phone size={15} className="text-tertiary" />
-                <a href={`tel:${siteConfig.phone}`} className="hover:text-white transition-colors">{siteConfig.phoneDisplay}</a>
+                <a href={`mailto:${siteConfig.contactEmail}`} className="hover:text-white transition-colors">{siteConfig.contactEmail}</a>
               </span>
             </div>
 

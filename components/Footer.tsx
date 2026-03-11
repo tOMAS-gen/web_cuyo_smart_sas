@@ -78,6 +78,38 @@ export default function Footer() {
                         </ul>
                     </div>
   
+                    {/* Columna 3: Cobertura */}
+                    <div>
+                        <h3 className="text-sm font-bold mb-6 text-secondary uppercase tracking-widest">Cobertura</h3>
+                        <ul className="space-y-3 text-sm text-gray-400">
+                            {['Gran Mendoza', 'Valle de Uco', 'Zona Este'].map(item => (
+                                <li key={item} className="flex items-start">
+                                    <MapPin size={15} className="mr-2 text-tertiary shrink-0 mt-0.5" />
+                                    <span>{item}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+  
+                    {/* Columna 4: Contacto */}
+                    <div>
+                        <h3 className="text-sm font-bold mb-6 text-secondary uppercase tracking-widest">Contacto</h3>
+                        <ul className="space-y-4 text-sm text-gray-400">
+                            <li>
+                                <a href={`mailto:${siteConfig.contactEmail}`} className="flex items-center hover:text-white transition-colors duration-200">
+                                    <Mail size={15} className="mr-3 text-tertiary shrink-0" />
+                                    {siteConfig.contactEmail}
+                                </a>
+                            </li>
+                            <li>
+                                <a href={`tel:${siteConfig.phone}`} className="flex items-center hover:text-white transition-colors duration-200">
+                                    <Phone size={15} className="mr-3 text-tertiary shrink-0" />
+                                    {siteConfig.phoneDisplay}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+  
                     {/* Columna 3: Contacto */}
                     <div>
                         <h3 className="text-sm font-bold mb-6 text-secondary uppercase tracking-widest">Contacto</h3>
