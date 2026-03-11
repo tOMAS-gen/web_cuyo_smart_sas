@@ -1,3 +1,21 @@
+/** Configuración global del sitio: contacto, URLs y redes sociales. */
+export interface SiteConfig {
+    siteUrl: string;
+    phone: string;
+    phoneDisplay: string;
+    contactEmail: string;
+    adminEmail: string;
+    address: string;
+    whatsappNumber: string;
+    whatsappLink: string;
+    googleMapsEmbedUrl: string;
+    socialMedia: {
+        facebook: string;
+        instagram: string;
+        linkedin: string;
+    };
+}
+
 export interface MetaData {
     title: string;
     description: string;
@@ -83,12 +101,6 @@ export interface TechosData {
         description: string;
         icon: string;
     }[];
-    gallery: {
-        title: string;
-        description: string;
-        before: string;
-        after: string;
-    };
     logistics: {
         title: string;
         description: string;
@@ -181,15 +193,6 @@ export interface ProjectsPageData {
     hero: HeroData;
     categories: { id: string; label: string }[];
     projects: ProjectItem[];
-    beforeAfter: {
-        title: string;
-        cases: {
-            title: string;
-            before: string;
-            after: string;
-            label?: string;
-        }[];
-    };
     methodology: {
         title: string;
         steps: { title: string; desc: string; icon: string }[];

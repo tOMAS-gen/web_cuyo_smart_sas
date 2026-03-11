@@ -1,0 +1,28 @@
+services:
+  app:
+    image: ghcr.io/tomas-gen/web_cuyo_smart_sas:latest
+    container_name: cuyo_smart_sas
+    ports:
+      - "3000:3000"
+    environment:
+      # --- URL del sitio ---
+      - NEXT_PUBLIC_SITE_URL=https://cuyosmart.com.ar
+
+      # --- Datos de contacto ---
+      - NEXT_PUBLIC_PHONE_NUMBER=+5492617590316
+      - NEXT_PUBLIC_PHONE_DISPLAY=+54 9 261 759 0316
+      - NEXT_PUBLIC_CONTACT_EMAIL=contacto@cuyosmart.com.ar
+      - NEXT_PUBLIC_ADMIN_EMAIL=info@cuyosmart.com.ar
+      - NEXT_PUBLIC_ADDRESS=Mendoza, Argentina
+
+      # --- WhatsApp ---
+      - NEXT_PUBLIC_WHATSAPP_NUMBER=5492617590316
+
+      # --- Google Maps (URL de embed) ---
+      - NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL=https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d214576.29675977648!2d-68.97280095!3d-32.8894587!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x967e093ec897241f%3A0x8eee5206e281af38!2sMendoza%2C%20Argentina!5e0!3m2!1ses-419!2sar!4v1
+
+      # --- Redes Sociales (dejar vacío si no aplica) ---
+      - NEXT_PUBLIC_FACEBOOK_URL=https://www.facebook.com/profile.php?id=61586370887312
+      - NEXT_PUBLIC_INSTAGRAM_URL=https://www.instagram.com/cuyosmart/
+      - NEXT_PUBLIC_LINKEDIN_URL=
+    restart: unless-stopped

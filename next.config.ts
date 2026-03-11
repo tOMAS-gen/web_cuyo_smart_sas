@@ -1,13 +1,30 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  images: {
-    remotePatterns: [
+  output: 'standalone',
+  async redirects() {
+    return [
       {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
+        source: '/reparacion-techos-impermeabilizacion',
+        destination: '/reparacion-techos-impermeabilizacion-mendoza',
+        permanent: true,
       },
-    ],
+      {
+        source: '/obras-civiles-remodelaciones',
+        destination: '/obras-civiles-construccion-en-seco-mendoza',
+        permanent: true,
+      },
+      {
+        source: '/aislacion-termica-poliuretano',
+        destination: '/aislacion-termica-poliuretano-expandido',
+        permanent: true,
+      },
+      {
+        source: '/contacto-presupuesto',
+        destination: '/contacto-presupuesto-obras',
+        permanent: true,
+      },
+    ];
   },
 };
 

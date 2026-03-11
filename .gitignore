@@ -22,7 +22,17 @@
 
 # misc
 .DS_Store
+._*
 *.pem
+
+# trace / perf files
+*.json.gz
+
+# agent / IDE metadata
+.agents/
+.trae/
+skills-lock.json
+AGENTS.md
 
 # debug
 npm-debug.log*

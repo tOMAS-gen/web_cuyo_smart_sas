@@ -1,0 +1,30 @@
+# Dependencias
+node_modules
+npm-debug.log*
+
+# Build de Next.js
+.next
+
+# Git
+.git
+.gitignore
+
+# Entorno
+.env*
+!.env.example
+
+# IDE / Editor
+.vscode
+.idea
+*.swp
+*.swo
+.DS_Store
+
+# Agentes y documentación
+.agents
+AGENTS.md
+README.md
+
+# Otros
+home_trace.json.gz
+scripts/
