@@ -121,9 +121,9 @@ export default function Footer() {
                             target="_blank"
                             rel="noreferrer"
                             className="hover:text-white transition-colors duration-200"
-                            style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}
+                            style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 400 }}
                         >
-                            ›genmarketing
+                            <span style={{ fontWeight: 600 }}>›gen</span>marketing
                         </a>
                     </p>
                 </div>
