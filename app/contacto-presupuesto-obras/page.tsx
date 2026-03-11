@@ -78,28 +78,15 @@ export default function Contacto() {
                             </a>
                         </div>
 
-                        {/* Card: Presupuestos / Email */}
-                        <div className="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 text-center hover:-translate-y-2 transition-all duration-300 group cursor-pointer">
-                            <div className="w-16 h-16 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-5 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                                <Mail size={30} />
-                            </div>
-                            <div className="w-8 h-0.5 bg-primary mx-auto mb-4 rounded-full" />
-                            <h3 className="text-lg font-bold text-primary mb-2 font-montserrat">{contactPageData.directInfo.admin.title}</h3>
-                            <a href={`mailto:${contactPageData.directInfo.admin.email}`} className="text-gray-700 mb-2 font-bold hover:text-secondary transition-colors block">
-                                {contactPageData.directInfo.admin.email}
-                            </a>
-                            <p className="text-gray-500 text-sm">{contactPageData.directInfo.admin.hours}</p>
-                        </div>
-
-                        {/* Card: Ubicación */}
+                        {/* Card: Ubicación - Se elimina el contenido, solo se deja la estructura si quieres el mapa abajo */}
                         <div className="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 text-center hover:-translate-y-2 transition-all duration-300 group cursor-pointer">
                             <div className="w-16 h-16 mx-auto bg-tertiary/10 rounded-xl flex items-center justify-center mb-5 text-tertiary group-hover:bg-tertiary group-hover:text-white transition-all duration-300">
                                 <MapPin size={30} />
                             </div>
                             <div className="w-8 h-0.5 bg-tertiary mx-auto mb-4 rounded-full" />
-                            <h3 className="text-lg font-bold text-primary mb-2 font-montserrat">{contactPageData.directInfo.location.title}</h3>
-                            <p className="text-gray-700 mb-2 font-bold">{contactPageData.directInfo.location.address}</p>
-                            <p className="text-gray-500 text-sm">{contactPageData.directInfo.location.coverage}</p>
+                            <h3 className="text-lg font-bold text-primary mb-2 font-montserrat">Ubicación</h3>
+                            <p className="text-gray-700 mb-2 font-bold">Mendoza, Argentina</p>
+                            <p className="text-gray-500 text-sm">Atendemos en Gran Mendoza, Zona Este y Valle de Uco.</p>
                         </div>
                     </div>
                 </div>
