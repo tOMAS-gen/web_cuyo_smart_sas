@@ -49,7 +49,7 @@ export const homeData: HomeData = {
     hero: {
         title: "Soluciones Integrales de Mantenimiento e Infraestructura",
         subtitle: "Calidad industrial y respaldo técnico para empresas, bodegas y hogares. Ejecución garantizada desde 2009.",
-        image: "/images/techos/01.jpeg",
+        image: "/images/techos/93.jpeg",
         ctaPrimary: "Hablar por WhatsApp",
         ctaSecondary: "Ver Proyectos Realizados"
     },
