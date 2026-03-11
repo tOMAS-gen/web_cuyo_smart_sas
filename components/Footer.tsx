@@ -88,12 +88,6 @@ export default function Footer() {
                                     {siteConfig.contactEmail}
                                 </a>
                             </li>
-                            <li>
-                                <a href={`tel:${siteConfig.phone}`} className="flex items-center hover:text-white transition-colors duration-200">
-                                    <Phone size={15} className="mr-3 text-tertiary shrink-0" />
-                                    {siteConfig.phoneDisplay}
-                                </a>
-                            </li>
                         </ul>
                     </div>
                 </div>
