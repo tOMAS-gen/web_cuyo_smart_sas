@@ -47,7 +47,14 @@ export const metadata: Metadata = {
         "presupuesto empresa constructora Mendoza",
     ],
     icons: {
-        icon: ["/brand/logo_symmetrical.svg", "/brand/logo_name_completo_fondo.svg"],
+        icon: [
+            { url: "/brand/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+            { url: "/brand/icon-192.png", sizes: "192x192", type: "image/png" },
+            { url: "/brand/icon-512.png", sizes: "512x512", type: "image/png" },
+        ],
+        apple: [
+            { url: "/brand/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+        ],
     },
     openGraph: {
         title: "Empresa de Mantenimiento e Infraestructura en Mendoza | CuyoSmart",
@@ -76,17 +83,54 @@ export const metadata: Metadata = {
     },
 };
 
+/** Schema.org Organization structured data so Google Search displays the site logo. */
+function OrganizationJsonLd() {
+    const schema = {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": `${siteConfig.siteUrl}/#organization`,
+        name: "CuyoSmart SAS",
+        url: siteConfig.siteUrl,
+        logo: {
+            "@type": "ImageObject",
+            url: `${siteConfig.siteUrl}/brand/logo_name_completo_fondo_800x800.jpg`,
+            width: 800,
+            height: 800,
+            caption: "CuyoSmart SAS",
+        },
+        image: `${siteConfig.siteUrl}/brand/logo_name_completo_fondo_800x800.jpg`,
+        sameAs: [
+            siteConfig.socialMedia.facebook,
+            siteConfig.socialMedia.instagram,
+            siteConfig.socialMedia.linkedin,
+        ].filter(url => url && !url.startsWith('__')),
+    };
+
+    return (
+        <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+    );
+}
+
 /** Schema.org LocalBusiness structured data for SEO. */
 function LocalBusinessJsonLd() {
     const schema = {
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
-        "@id": `${siteConfig.siteUrl}/#organization`,
+        "@id": `${siteConfig.siteUrl}/#localbusiness`,
         name: "CuyoSmart SAS",
         description: "Empresa de mantenimiento industrial, reparación de techos, obras civiles y aislación térmica en Mendoza.",
         url: siteConfig.siteUrl,
-        logo: `${siteConfig.siteUrl}/brand/logo_name_completo_fondo_800x800.jpg`,
+        logo: {
+            "@type": "ImageObject",
+            url: `${siteConfig.siteUrl}/brand/logo_name_completo_fondo_800x800.jpg`,
+            width: 800,
+            height: 800,
+        },
         image: `${siteConfig.siteUrl}/brand/logo_name_completo_fondo_800x800.jpg`,
+        parentOrganization: { "@id": `${siteConfig.siteUrl}/#organization` },
         telephone: siteConfig.phone,
         email: siteConfig.contactEmail,
         address: {
