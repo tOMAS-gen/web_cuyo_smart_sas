@@ -146,18 +146,20 @@ function LocalBusinessJsonLd() {
             latitude: -32.8908,
             longitude: -68.8272,
         },
-        openingHoursSpecification: {
-            "@type": "OpeningHoursSpecification",
-            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-            opens: "08:00",
-            closes: "18:00",
-        },
+        openingHoursSpecification: [
+            {
+                "@type": "OpeningHoursSpecification",
+                dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                opens: "08:00",
+                closes: "18:00",
+            },
+        ],
         areaServed: {
             "@type": "GeoCircle",
             geoMidpoint: {
                 "@type": "GeoCoordinates",
                 latitude: -32.8908,
-                longitude: -68.5272,
+                longitude: -68.8272,
             },
             geoRadius: "100000",
         },
@@ -233,6 +235,7 @@ export default function RootLayout({
     return (
         <html lang="es">
             <head>
+                <OrganizationJsonLd />
                 <LocalBusinessJsonLd />
             </head>
             <body className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} ${openSans.variable} antialiased min-h-screen flex flex-col`}>

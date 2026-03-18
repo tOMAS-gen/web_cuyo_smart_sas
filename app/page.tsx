@@ -3,30 +3,44 @@ import Image from "next/image";
 import Link from "next/link";
 import { homeData, siteConfig } from "../data/content";
 import * as LucideIcons from "lucide-react";
+import { BreadcrumbJsonLd } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
   title: homeData.meta.title,
   description: homeData.meta.description,
+  keywords: homeData.meta.keywords,
+  alternates: {
+    canonical: siteConfig.siteUrl,
+  },
   openGraph: {
     title: homeData.meta.title,
     description: homeData.meta.description,
+    url: siteConfig.siteUrl,
+    siteName: "CuyoSmart",
+    locale: "es_AR",
+    type: "website",
     images: [
       {
-        url: "/brand/logo_name_completo_fondo_800x800.jpg",
-        alt: "Cuyo Smart",
-        width: 800,
-        height: 800,
+        url: "/images/techos/93.jpeg",
+        alt: "CuyoSmart - Empresa de Mantenimiento e Infraestructura en Mendoza",
+        width: 1200,
+        height: 630,
         type: "image/jpeg",
       },
     ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: homeData.meta.title,
+    description: homeData.meta.description,
+    images: ["/images/techos/93.jpeg"],
+  },
   other: {
-    "og:site_name": "CuyoSmart",
     "business:contact_data:street_address": "Mendoza",
     "business:contact_data:locality": "Mendoza",
     "business:contact_data:region": "Mendoza",
     "business:contact_data:postal_code": "5500",
-    "business:contact_data:country_name": "AR"
+    "business:contact_data:country_name": "AR",
   },
 };
 const iconMap: Record<string, LucideIcons.LucideIcon> = {
@@ -49,6 +63,7 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white">
+      <BreadcrumbJsonLd items={[]} />
       <main className="grow">
 
         {/* 1. Hero Section */}

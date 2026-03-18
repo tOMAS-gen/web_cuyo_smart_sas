@@ -16,6 +16,7 @@ import { BreadcrumbJsonLd, ServiceJsonLd } from '@/components/StructuredData';
 export const metadata: Metadata = {
     title: insulationPageData.meta.title,
     description: insulationPageData.meta.description,
+    keywords: insulationPageData.meta.keywords,
     alternates: {
         canonical: `${siteConfig.siteUrl}/aislacion-termica-poliuretano-expandido`,
     },
@@ -25,19 +26,19 @@ export const metadata: Metadata = {
         url: `${siteConfig.siteUrl}/aislacion-termica-poliuretano-expandido`,
         images: [
             {
-                url: "/brand/logo_name_completo_fondo_800x800.jpg",
-                alt: "Cuyo Smart",
-                width: 800,
-                height: 800,
+                url: "/images/aislacion/03.jpeg",
+                alt: "Aislación Térmica con Poliuretano Expandido en Mendoza - CuyoSmart",
+                width: 1200,
+                height: 630,
                 type: "image/jpeg",
             },
         ],
     },
     twitter: {
-        card: "summary",
+        card: "summary_large_image",
         title: insulationPageData.meta.title,
         description: insulationPageData.meta.description,
-        images: ["/brand/logo_name_completo_fondo_800x800.jpg"],
+        images: ["/images/aislacion/03.jpeg"],
     },
 };
 

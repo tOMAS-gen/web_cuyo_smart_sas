@@ -8,6 +8,7 @@ import { BreadcrumbJsonLd, FAQPageJsonLd } from '@/components/StructuredData';
 export const metadata: Metadata = {
     title: contactPageData.meta.title,
     description: contactPageData.meta.description,
+    keywords: contactPageData.meta.keywords,
     alternates: {
         canonical: `${siteConfig.siteUrl}/contacto-presupuesto-obras`,
     },
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
         images: [
             {
                 url: "/brand/logo_name_completo_fondo_800x800.jpg",
-                alt: "Cuyo Smart",
+                alt: "Contacto y Presupuesto de Obras en Mendoza - CuyoSmart",
                 width: 800,
                 height: 800,
                 type: "image/jpeg",
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
         ],
     },
     twitter: {
-        card: "summary",
+        card: "summary_large_image",
         title: contactPageData.meta.title,
         description: contactPageData.meta.description,
         images: ["/brand/logo_name_completo_fondo_800x800.jpg"],

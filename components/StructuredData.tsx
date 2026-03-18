@@ -63,7 +63,7 @@ export function ServiceJsonLd({ name, description, url, image, areaServed = "Men
         provider: {
             "@type": "LocalBusiness",
             name: provider,
-            "@id": `${siteConfig.siteUrl}/#organization`,
+            "@id": `${siteConfig.siteUrl}/#localbusiness`,
         },
     };
     return <JsonLd data={data} />;

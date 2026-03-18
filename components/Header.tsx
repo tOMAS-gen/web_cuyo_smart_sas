@@ -1,11 +1,16 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Phone, Mail, Facebook, Instagram } from 'lucide-react';
+import { Menu, X, Phone, Mail, Facebook, Instagram, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { siteConfig } from '@/data/content';
+
+const socialLinks = [
+    { Icon: Facebook, label: 'Facebook', urlKey: 'facebook' as const },
+    { Icon: Instagram, label: 'Instagram', urlKey: 'instagram' as const },
+];
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
@@ -39,7 +44,7 @@ export default function Header() {
                     : 'bg-primary shadow-md'
                 }`}
         >
-            {/* Top Bar */}
+            {/* Top Bar — desktop */}
             <div className="bg-primary text-white text-xs py-2 hidden md:block border-b border-white/10">
                 <div className="container mx-auto px-6 flex justify-between items-center">
 
@@ -61,28 +66,34 @@ export default function Header() {
                         </a>
                     </div>
 
-                    {/* Derecha: redes sociales */}
-                    <div className="flex items-center gap-3">
-                        {siteConfig.socialMedia.facebook && !siteConfig.socialMedia.facebook.startsWith('__') && (
+                    {/* Derecha: redes sociales + WhatsApp */}
+                    <div className="flex items-center gap-1">
+                        {socialLinks.map(({ Icon, label, urlKey }) => {
+                            const url = siteConfig.socialMedia[urlKey];
+                            if (!url || url.startsWith('__')) return null;
+                            return (
+                                <a
+                                    key={label}
+                                    href={url}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    aria-label={label}
+                                    className="w-7 h-7 flex items-center justify-center rounded text-gray-400 hover:text-secondary hover:bg-white/10 transition-all duration-200"
+                                >
+                                    <Icon size={14} />
+                                </a>
+                            );
+                        })}
+                        {siteConfig.whatsappLink && !siteConfig.whatsappNumber.startsWith('__') && (
                             <a
-                                href={siteConfig.socialMedia.facebook}
+                                href={`${siteConfig.whatsappLink}?text=${encodeURIComponent('Hola CuyoSmart, quiero hacer una consulta')}`}
                                 target="_blank"
                                 rel="noreferrer"
-                                aria-label="Facebook"
-                                className="text-gray-400 hover:text-secondary transition-colors"
+                                aria-label="WhatsApp"
+                                className="ml-1 flex items-center gap-1.5 bg-secondary/20 hover:bg-secondary/30 text-secondary border border-secondary/30 hover:border-secondary/60 px-2.5 py-1 rounded text-[11px] font-bold uppercase tracking-wide transition-all duration-200"
                             >
-                                <Facebook size={14} />
-                            </a>
-                        )}
-                        {siteConfig.socialMedia.instagram && !siteConfig.socialMedia.instagram.startsWith('__') && (
-                            <a
-                                href={siteConfig.socialMedia.instagram}
-                                target="_blank"
-                                rel="noreferrer"
-                                aria-label="Instagram"
-                                className="text-gray-400 hover:text-secondary transition-colors"
-                            >
-                                <Instagram size={14} />
+                                <MessageCircle size={12} />
+                                WhatsApp
                             </a>
                         )}
                     </div>
@@ -175,6 +186,38 @@ export default function Header() {
                             >
                                 CONTACTO
                             </Link>
+                        </div>
+
+                        {/* Redes sociales móvil */}
+                        <div className="mt-5 pt-4 border-t border-white/10 flex items-center gap-3 px-2">
+                            {socialLinks.map(({ Icon, label, urlKey }) => {
+                                const url = siteConfig.socialMedia[urlKey];
+                                if (!url || url.startsWith('__')) return null;
+                                return (
+                                    <a
+                                        key={label}
+                                        href={url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        aria-label={label}
+                                        className="w-9 h-9 flex items-center justify-center rounded-lg border border-white/15 text-white/50 hover:text-secondary hover:border-secondary hover:bg-secondary/5 transition-all duration-200"
+                                    >
+                                        <Icon size={18} strokeWidth={1.5} />
+                                    </a>
+                                );
+                            })}
+                            {siteConfig.whatsappLink && !siteConfig.whatsappNumber.startsWith('__') && (
+                                <a
+                                    href={`${siteConfig.whatsappLink}?text=${encodeURIComponent('Hola CuyoSmart, quiero hacer una consulta')}`}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    aria-label="WhatsApp"
+                                    className="flex items-center gap-2 bg-secondary/20 hover:bg-secondary/30 text-secondary border border-secondary/30 px-3 py-2 rounded-lg text-xs font-bold uppercase tracking-wide transition-all duration-200"
+                                >
+                                    <MessageCircle size={15} />
+                                    WhatsApp
+                                </a>
+                            )}
                         </div>
                     </div>
                 </div>

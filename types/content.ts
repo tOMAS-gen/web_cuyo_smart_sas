@@ -19,6 +19,7 @@ export interface SiteConfig {
 export interface MetaData {
     title: string;
     description: string;
+    keywords?: string[];
 }
 
 export interface HeroData {

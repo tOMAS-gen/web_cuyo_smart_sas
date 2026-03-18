@@ -15,6 +15,7 @@ import { BreadcrumbJsonLd, ServiceJsonLd } from '@/components/StructuredData';
 export const metadata: Metadata = {
     title: obrasData.meta.title,
     description: obrasData.meta.description,
+    keywords: obrasData.meta.keywords,
     alternates: {
         canonical: `${siteConfig.siteUrl}/obras-civiles-construccion-en-seco-mendoza`,
     },
@@ -24,14 +25,20 @@ export const metadata: Metadata = {
         url: `${siteConfig.siteUrl}/obras-civiles-construccion-en-seco-mendoza`,
         images: [
             {
-                url: "/brand/logo_name_completo_fondo_800x800.jpg",
-                alt: "Cuyo Smart",
-                width: 800,
-                height: 800,
+                url: "/images/obras-civiles/05.jpeg",
+                alt: "Obras Civiles y Construcción en Seco en Mendoza - CuyoSmart",
+                width: 1200,
+                height: 630,
                 type: "image/jpeg",
             },
         ],
-    }
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: obrasData.meta.title,
+        description: obrasData.meta.description,
+        images: ["/images/obras-civiles/05.jpeg"],
+    },
 };
 
 const iconMap: Record<string, React.ComponentType<{ size?: number, className?: string }>> = {

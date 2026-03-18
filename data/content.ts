@@ -44,7 +44,21 @@ export const siteConfig: SiteConfig = {
 export const homeData: HomeData = {
     meta: {
         title: "Empresa de Mantenimiento e Infraestructura en Mendoza | CuyoSmart",
-        description: "Soluciones integrales para empresas y hogares en Mendoza. Expertos en reparación de techos, impermeabilización, construcción en seco y aislación. Presupuesto sin cargo."
+        description: "Soluciones integrales para empresas y hogares en Mendoza. Expertos en reparación de techos, impermeabilización, construcción en seco y aislación. Presupuesto sin cargo.",
+        keywords: [
+            "empresa constructora Mendoza",
+            "empresa de mantenimiento Mendoza",
+            "empresa de construcción Mendoza",
+            "reparación de techos Mendoza",
+            "impermeabilización Mendoza",
+            "construcción en seco Mendoza",
+            "aislación térmica Mendoza",
+            "mantenimiento industrial Mendoza",
+            "obras civiles Mendoza",
+            "presupuesto construcción Mendoza",
+            "mantenimiento edilicio Mendoza",
+            "empresa de obras Mendoza",
+        ]
     },
     hero: {
         title: "Soluciones Integrales de Mantenimiento e Infraestructura",
@@ -143,7 +157,19 @@ export const homeData: HomeData = {
 export const techosData: TechosData = {
     meta: {
         title: "Reparación de Techos e Impermeabilización en Mendoza | CuyoSmart",
-        description: "Soluciones definitivas a filtraciones. Especialistas en diagnóstico estructural, cambio de chapas, zinguería industrial y membranas. Solicite visita técnica."
+        description: "Soluciones definitivas a filtraciones. Especialistas en diagnóstico estructural, cambio de chapas, zinguería industrial y membranas. Solicite visita técnica.",
+        keywords: [
+            "reparación de techos Mendoza",
+            "impermeabilización techos Mendoza",
+            "empresa techos Mendoza",
+            "cambio de chapa Mendoza",
+            "zinguería industrial Mendoza",
+            "membrana impermeabilizante Mendoza",
+            "filtraciones techo Mendoza",
+            "mantenimiento techos industria Mendoza",
+            "reparación cubierta metálica Mendoza",
+            "techo de chapa Mendoza",
+        ]
     },
     hero: {
         title: "Recuperación y Mantenimiento Integral de Cubiertas",
@@ -210,7 +236,18 @@ export const techosData: TechosData = {
 export const insulationPageData: InsulationPageData = {
     meta: {
         title: "Aislación Térmica con Poliuretano en Mendoza | CuyoSmart",
-        description: "Proyección de espuma de poliuretano in situ. Solución definitiva para el control de temperatura y condensación en bodegas y techos residenciales. Cotice online."
+        description: "Proyección de espuma de poliuretano in situ. Solución definitiva para el control de temperatura y condensación en bodegas y techos residenciales. Cotice online.",
+        keywords: [
+            "aislación térmica Mendoza",
+            "poliuretano expandido Mendoza",
+            "espuma poliuretano techos Mendoza",
+            "aislación térmica galpones Mendoza",
+            "aislación bodegas Mendoza",
+            "eficiencia energética Mendoza",
+            "control temperatura galpón Mendoza",
+            "proyección poliuretano Mendoza",
+            "aislación techo chapa Mendoza",
+        ]
     },
     hero: {
         title: "Aislación Térmica de Alto Rendimiento",
@@ -286,7 +323,20 @@ export const insulationPageData: InsulationPageData = {
 export const obrasData: ObrasData = {
     meta: {
         title: "Obras Civiles y Construcción en Seco en Mendoza | CuyoSmart",
-        description: "Ejecución de obras llave en mano. Construcción en seco (Steel Framing) y albañilería tradicional para oficinas, industrias y ampliaciones. Pida presupuesto."
+        description: "Ejecución de obras llave en mano. Construcción en seco (Steel Framing) y albañilería tradicional para oficinas, industrias y ampliaciones. Pida presupuesto.",
+        keywords: [
+            "empresa constructora Mendoza",
+            "obras civiles Mendoza",
+            "construcción en seco Mendoza",
+            "Steel Framing Mendoza",
+            "Durlock Mendoza",
+            "tabiquería interior Mendoza",
+            "remodelación oficinas Mendoza",
+            "ampliación casa Mendoza",
+            "albañilería Mendoza",
+            "construcción llave en mano Mendoza",
+            "remodelación local comercial Mendoza",
+        ]
     },
     hero: {
         title: "Infraestructura y Obras Civiles: Ejecución Profesional",
@@ -371,7 +421,17 @@ export const obrasData: ObrasData = {
 export const projectsPageData: ProjectsPageData = {
     meta: {
         title: "Galería de Proyectos y Obras Realizadas en Mendoza | CuyoSmart",
-        description: "Explore nuestro portafolio de obras. Trabajos comprobables de mantenimiento industrial, reparación de techos y construcción civil para empresas y hogares."
+        description: "Explore nuestro portafolio de obras. Trabajos comprobables de mantenimiento industrial, reparación de techos y construcción civil para empresas y hogares.",
+        keywords: [
+            "proyectos obras Mendoza",
+            "portafolio constructora Mendoza",
+            "obras realizadas Mendoza",
+            "trabajos de techos Mendoza",
+            "mantenimiento industrial Mendoza",
+            "obras civiles realizadas Mendoza",
+            "empresa con experiencia Mendoza",
+            "galería obras construcción Mendoza",
+        ]
     },
     hero: {
         title: "Nuestra Experiencia en Obra",
@@ -676,7 +736,16 @@ export const projectsPageData: ProjectsPageData = {
 export const contactPageData: ContactPageData = {
     meta: {
         title: "Contacto y Solicitud de Presupuesto | CuyoSmart Mendoza",
-        description: "Comuníquese con CuyoSmart. Solicite asesoramiento técnico o presupuesto para su proyecto de techo, obra civil o aislación en Mendoza. WhatsApp directo."
+        description: "Comuníquese con CuyoSmart. Solicite asesoramiento técnico o presupuesto para su proyecto de techo, obra civil o aislación en Mendoza. WhatsApp directo.",
+        keywords: [
+            "presupuesto obra Mendoza",
+            "contacto empresa constructora Mendoza",
+            "solicitar presupuesto techos Mendoza",
+            "presupuesto obras civiles Mendoza",
+            "visita técnica gratuita Mendoza",
+            "presupuesto aislación Mendoza",
+            "contacto CuyoSmart",
+        ]
     },
     hero: {
         title: "Hablemos de su Proyecto.",

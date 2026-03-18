@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Facebook, Instagram, Linkedin, ChevronRight, MapPin, Mail, Phone } from 'lucide-react';
+import { Facebook, Instagram, MessageCircle, ChevronRight, MapPin, Mail, Phone } from 'lucide-react';
 import Link from 'next/link';
 import { siteConfig } from '@/data/content';
 
@@ -25,11 +25,10 @@ export default function Footer() {
                         <p className="text-gray-400 text-sm mb-6 leading-relaxed font-sans">
                             Soluciones integrales de techado y aislación para Empresas, Bodegas y Consorcios en Mendoza. Calidad garantizada desde 2009.
                         </p>
-                        <div className="flex space-x-3">
+                        <div className="flex gap-3 flex-wrap">
                             {[
                                 { Icon: Facebook, label: 'Facebook', url: siteConfig.socialMedia.facebook },
                                 { Icon: Instagram, label: 'Instagram', url: siteConfig.socialMedia.instagram },
-                                { Icon: Linkedin, label: 'LinkedIn', url: siteConfig.socialMedia.linkedin },
                             ].filter(({ url }) => url && !url.startsWith('__')).map(({ Icon, label, url }) => (
                                 <a
                                     key={label}
@@ -37,13 +36,26 @@ export default function Footer() {
                                     target="_blank"
                                     rel="noreferrer"
                                     aria-label={label}
-                                    className="w-10 h-10 rounded-lg border border-white/10 flex items-center justify-center text-white/50
+                                    className="w-11 h-11 rounded-xl border border-white/10 flex items-center justify-center text-white/50
                                                hover:text-secondary hover:border-secondary hover:scale-110 hover:bg-secondary/5
                                                transition-all duration-200"
                                 >
-                                    <Icon size={18} strokeWidth={1.5} />
+                                    <Icon size={20} strokeWidth={1.5} />
                                 </a>
                             ))}
+                            {siteConfig.whatsappLink && !siteConfig.whatsappNumber.startsWith('__') && (
+                                <a
+                                    href={`${siteConfig.whatsappLink}?text=${encodeURIComponent('Hola CuyoSmart, quiero hacer una consulta')}`}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    aria-label="WhatsApp"
+                                    className="w-11 h-11 rounded-xl border border-white/10 flex items-center justify-center text-white/50
+                                               hover:text-secondary hover:border-secondary hover:scale-110 hover:bg-secondary/5
+                                               transition-all duration-200"
+                                >
+                                    <MessageCircle size={20} strokeWidth={1.5} />
+                                </a>
+                            )}
                         </div>
                     </div>
 

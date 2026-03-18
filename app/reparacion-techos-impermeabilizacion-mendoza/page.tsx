@@ -19,6 +19,7 @@ import { BreadcrumbJsonLd, ServiceJsonLd } from '@/components/StructuredData';
 export const metadata: Metadata = {
     title: techosData.meta.title,
     description: techosData.meta.description,
+    keywords: techosData.meta.keywords,
     alternates: {
         canonical: `${siteConfig.siteUrl}/reparacion-techos-impermeabilizacion-mendoza`,
     },
@@ -28,19 +29,19 @@ export const metadata: Metadata = {
         url: `${siteConfig.siteUrl}/reparacion-techos-impermeabilizacion-mendoza`,
         images: [
             {
-                url: "/brand/logo_name_completo_fondo_800x800.jpg",
-                alt: "Cuyo Smart",
-                width: 800,
-                height: 800,
+                url: "/images/techos/08.jpeg",
+                alt: "Reparación de Techos e Impermeabilización en Mendoza - CuyoSmart",
+                width: 1200,
+                height: 630,
                 type: "image/jpeg",
             },
         ],
     },
     twitter: {
-        card: "summary",
+        card: "summary_large_image",
         title: techosData.meta.title,
         description: techosData.meta.description,
-        images: ["/brand/logo_name_completo_fondo_800x800.jpg"],
+        images: ["/images/techos/08.jpeg"],
     },
 };
 
