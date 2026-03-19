@@ -19,8 +19,8 @@ const ADDRESS = process.env.NEXT_PUBLIC_ADDRESS || "__NEXT_PUBLIC_ADDRESS__";
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "__NEXT_PUBLIC_WHATSAPP_NUMBER__";
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
 const GOOGLE_MAPS_EMBED_URL = process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL || "__NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL__";
-const FACEBOOK_URL = process.env.NEXT_PUBLIC_FACEBOOK_URL || "__NEXT_PUBLIC_FACEBOOK_URL__";
-const INSTAGRAM_URL = process.env.NEXT_PUBLIC_INSTAGRAM_URL || "__NEXT_PUBLIC_INSTAGRAM_URL__";
+const FACEBOOK_URL = process.env.NEXT_PUBLIC_FACEBOOK_URL || "https://www.facebook.com/profile.php?id=61586370887312";
+const INSTAGRAM_URL = process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://www.instagram.com/cuyosmart/";
 const LINKEDIN_URL = process.env.NEXT_PUBLIC_LINKEDIN_URL || "__NEXT_PUBLIC_LINKEDIN_URL__";
 
 /** Configuración global del sitio, exportada para uso en cualquier componente. */
