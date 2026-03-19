@@ -18,10 +18,10 @@ export const metadata: Metadata = {
         url: `${siteConfig.siteUrl}/contacto-presupuesto-obras`,
         images: [
             {
-                url: "/brand/logo_name_completo_fondo_800x800.jpg",
-                alt: "Contacto y Presupuesto de Obras en Mendoza - CuyoSmart",
-                width: 800,
-                height: 800,
+                url: "/images/techos/93.jpeg",
+                alt: "Contacto y solicitud de presupuesto de obras en Mendoza - CuyoSmart",
+                width: 1200,
+                height: 630,
                 type: "image/jpeg",
             },
         ],
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: contactPageData.meta.title,
         description: contactPageData.meta.description,
-        images: ["/brand/logo_name_completo_fondo_800x800.jpg"],
+        images: ["/images/techos/93.jpeg"],
     },
 };
 
@@ -137,7 +137,7 @@ export default function Contacto() {
             </section>
 
             {/* 4. Ubicación (Mapa) */}
-            {contactPageData.location && contactPageData.location.embedUrl && !contactPageData.location.embedUrl.startsWith('__') && contactPageData.location.embedUrl !== "__MAP_PLACEHOLDER__" && (
+            {contactPageData.location?.embedUrl && contactPageData.location.embedUrl.length > 0 && !contactPageData.location.embedUrl.startsWith('__') && (
                 <section className="w-full h-[420px] relative bg-gray-200">
                     <iframe
                         src={contactPageData.location.embedUrl}

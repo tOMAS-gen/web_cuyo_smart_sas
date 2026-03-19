@@ -63,7 +63,7 @@ export default function ObrasCiviles() {
                     {obrasData.hero.image && (
                         <Image
                             src={obrasData.hero.image}
-                            alt="construccion-en-seco-oficinas-steel-framing-mendoza"
+                            alt="Construcción en seco con Steel Framing en oficinas de Mendoza"
                             fill
                             className="object-cover opacity-30"
                             priority

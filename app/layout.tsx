@@ -33,9 +33,9 @@ export const metadata: Metadata = {
     metadataBase: new URL(siteConfig.siteUrl),
     title: {
         default: "Empresa de Mantenimiento e Infraestructura en Mendoza | CuyoSmart",
-        template: "%s",
+        template: "%s | CuyoSmart",
     },
-    description: "Soluciones integrales para empresas y hogares en Mendoza. Expertos en recuperación de techos, construcción en seco y aislación térmica. Presupuestos sin cargo.",
+    description: "Empresa de mantenimiento en Mendoza. Expertos en reparación de techos, impermeabilización, construcción en seco y aislación térmica. Presupuesto sin cargo.",
     keywords: [
         "empresa mantenimiento Mendoza",
         "reparación de techos Mendoza",
@@ -58,30 +58,50 @@ export const metadata: Metadata = {
     },
     openGraph: {
         title: "Empresa de Mantenimiento e Infraestructura en Mendoza | CuyoSmart",
-        description: "Soluciones integrales para empresas y hogares en Mendoza. Expertos en recuperación de techos, construcción en seco y aislación térmica.",
+        description: "Empresa de mantenimiento en Mendoza. Expertos en reparación de techos, impermeabilización, construcción en seco y aislación térmica.",
         siteName: "CuyoSmart",
         locale: "es_AR",
         type: "website",
         images: [
             {
-                url: "/brand/logo_name_completo_fondo_800x800.jpg",
-                alt: "CuyoSmart - Empresa de Mantenimiento e Infraestructura en Mendoza",
-                width: 800,
-                height: 800,
+                url: "/images/techos/93.jpeg",
+                alt: "CuyoSmart - Empresa de mantenimiento e infraestructura en Mendoza",
+                width: 1200,
+                height: 630,
                 type: "image/jpeg",
             },
         ],
     },
     twitter: {
-        card: "summary",
+        card: "summary_large_image",
         title: "Empresa de Mantenimiento e Infraestructura en Mendoza | CuyoSmart",
-        description: "Soluciones integrales para empresas y hogares en Mendoza. Expertos en recuperación de techos, construcción en seco y aislación térmica.",
-        images: ["/brand/logo_name_completo_fondo_800x800.jpg"],
+        description: "Empresa de mantenimiento en Mendoza. Expertos en reparación de techos, impermeabilización, construcción en seco y aislación térmica.",
+        images: ["/images/techos/93.jpeg"],
     },
     alternates: {
         canonical: siteConfig.siteUrl,
     },
 };
+
+/** Schema.org WebSite structured data — enables Google Sitelinks Searchbox eligibility. */
+function WebSiteJsonLd() {
+    const schema = {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": `${siteConfig.siteUrl}/#website`,
+        url: siteConfig.siteUrl,
+        name: "CuyoSmart",
+        description: "Empresa de mantenimiento e infraestructura en Mendoza",
+        inLanguage: "es-AR",
+        publisher: { "@id": `${siteConfig.siteUrl}/#organization` },
+    };
+    return (
+        <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+    );
+}
 
 /** Schema.org Organization structured data so Google Search displays the site logo. */
 function OrganizationJsonLd() {
@@ -235,6 +255,7 @@ export default function RootLayout({
     return (
         <html lang="es">
             <head>
+                <WebSiteJsonLd />
                 <OrganizationJsonLd />
                 <LocalBusinessJsonLd />
             </head>

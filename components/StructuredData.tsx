@@ -45,16 +45,20 @@ interface ServiceSchemaProps {
     image?: string;
     areaServed?: string;
     provider?: string;
+    serviceType?: string;
 }
 
 /** Service structured data for service pages */
-export function ServiceJsonLd({ name, description, url, image, areaServed = "Mendoza, Argentina", provider = "CuyoSmart SAS" }: ServiceSchemaProps) {
+export function ServiceJsonLd({ name, description, url, image, areaServed = "Mendoza, Argentina", provider = "CuyoSmart SAS", serviceType }: ServiceSchemaProps) {
+    const absoluteUrl = `${siteConfig.siteUrl}${url}`;
     const data = {
         "@context": "https://schema.org",
         "@type": "Service",
+        "@id": absoluteUrl,
         name,
         description,
-        url: `${siteConfig.siteUrl}${url}`,
+        url: absoluteUrl,
+        ...(serviceType && { serviceType }),
         ...(image && { image: `${siteConfig.siteUrl}${image}` }),
         areaServed: {
             "@type": "Place",
@@ -64,6 +68,16 @@ export function ServiceJsonLd({ name, description, url, image, areaServed = "Men
             "@type": "LocalBusiness",
             name: provider,
             "@id": `${siteConfig.siteUrl}/#localbusiness`,
+        },
+        offers: {
+            "@type": "Offer",
+            url: absoluteUrl,
+            priceCurrency: "ARS",
+            availability: "https://schema.org/InStock",
+            areaServed: {
+                "@type": "Place",
+                name: areaServed,
+            },
         },
     };
     return <JsonLd data={data} />;

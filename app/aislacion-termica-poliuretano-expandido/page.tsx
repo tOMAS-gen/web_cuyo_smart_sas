@@ -67,7 +67,7 @@ export default function AislacionTermica() {
                     {insulationPageData.hero.image && (
                         <Image
                             src={insulationPageData.hero.image}
-                            alt="proyeccion-poliuretano-expandido-techo-bodega"
+                            alt="Proyección de poliuretano expandido en techo de bodega en Mendoza"
                             fill
                             className="object-cover opacity-40"
                             priority

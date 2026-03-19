@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { homeData, siteConfig } from "../data/content";
 import * as LucideIcons from "lucide-react";
-import { BreadcrumbJsonLd } from "@/components/StructuredData";
+import { BreadcrumbJsonLd, ServiceJsonLd } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
   title: homeData.meta.title,
@@ -64,6 +64,27 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-white">
       <BreadcrumbJsonLd items={[]} />
+      <ServiceJsonLd
+        name="Reparación de Techos e Impermeabilización"
+        description="Diagnóstico estructural, cambio de chapas, zinguería industrial, membranas impermeabilizantes y soluciones definitivas a filtraciones en Mendoza."
+        url="/reparacion-techos-impermeabilizacion-mendoza"
+        image="/images/techos/08.jpeg"
+        serviceType="Reparación de Techos"
+      />
+      <ServiceJsonLd
+        name="Obras Civiles y Construcción en Seco"
+        description="Ejecución de obras llave en mano con Steel Framing, Durlock, tabiquería y albañilería tradicional para oficinas, industrias y ampliaciones en Mendoza."
+        url="/obras-civiles-construccion-en-seco-mendoza"
+        image="/images/obras-civiles/05.jpeg"
+        serviceType="Obras Civiles"
+      />
+      <ServiceJsonLd
+        name="Aislación Térmica con Poliuretano Expandido"
+        description="Proyección de espuma de poliuretano in situ para control de temperatura y condensación en bodegas, galpones y techos residenciales en Mendoza."
+        url="/aislacion-termica-poliuretano-expandido"
+        image="/images/aislacion/03.jpeg"
+        serviceType="Aislación Térmica"
+      />
       <main className="grow">
 
         {/* 1. Hero Section */}
@@ -73,7 +94,7 @@ export default function Home() {
             {hero.image && (
               <Image
                 src={hero.image}
-                alt="empresa-mantenimiento-industrial-mendoza"
+                alt="Equipo CuyoSmart realizando mantenimiento industrial en Mendoza"
                 fill
                 className="object-cover"
                 priority

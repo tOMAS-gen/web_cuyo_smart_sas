@@ -23,5 +23,4 @@ services:
       # --- Redes Sociales (dejar vacío si no aplica) ---
       - NEXT_PUBLIC_FACEBOOK_URL=https://www.facebook.com/profile.php?id=61586370887312
       - NEXT_PUBLIC_INSTAGRAM_URL=https://www.instagram.com/cuyosmart/
-      - NEXT_PUBLIC_LINKEDIN_URL=
     restart: unless-stopped

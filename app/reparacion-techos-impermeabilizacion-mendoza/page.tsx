@@ -70,7 +70,7 @@ export default function ReparacionTechos() {
                     {techosData.hero.image && (
                         <Image
                             src={techosData.hero.image}
-                            alt="reparacion-techo-impermeabilizacion-mendoza"
+                            alt="Equipo CuyoSmart reparando techo industrial en Mendoza"
                             fill
                             className="object-cover opacity-30"
                             priority
@@ -122,7 +122,7 @@ export default function ReparacionTechos() {
                             <div className="relative h-[400px] w-full rounded-xl overflow-hidden shadow-2xl">
                                 <Image
                                     src="/images/techos/10.jpeg"
-                                    alt="reparacion-techo-chapa-zingueria-mendoza"
+                                    alt="Reparación de cubierta de chapa y zinguería industrial en Mendoza"
                                     fill
                                     className="object-cover"
                                 />
