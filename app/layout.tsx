@@ -46,16 +46,8 @@ export const metadata: Metadata = {
         "mantenimiento industrial Mendoza",
         "presupuesto empresa constructora Mendoza",
     ],
-    icons: {
-        icon: [
-            { url: "/brand/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-            { url: "/brand/icon-192.png", sizes: "192x192", type: "image/png" },
-            { url: "/brand/icon-512.png", sizes: "512x512", type: "image/png" },
-        ],
-        apple: [
-            { url: "/brand/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-        ],
-    },
+    // favicon.ico y apple-icon.png en app/ son detectados automáticamente por Next.js
+    // No se necesita configuración manual de icons aquí
     openGraph: {
         title: "Empresa de Mantenimiento e Infraestructura en Mendoza | CuyoSmart",
         description: "Empresa de mantenimiento en Mendoza. Expertos en reparación de techos, impermeabilización, construcción en seco y aislación térmica.",

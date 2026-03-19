@@ -124,20 +124,8 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom bar */}
-                <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-400">
+                <div className="border-t border-white/10 pt-8 flex items-center justify-center text-xs text-gray-400">
                     <p>&copy; {year} CuyoSmart SAS. Todos los derechos reservados.</p>
-                    <p className="text-gray-500">
-                        Diseño y desarrollo web por{' '}
-                        <a
-                            href="https://genmarketing.com.ar"
-                            target="_blank"
-                            rel="noreferrer"
-                            className="hover:text-white transition-colors duration-200"
-                            style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 400 }}
-                        >
-                            <span style={{ fontWeight: 600 }}>›gen</span>marketing
-                        </a>
-                    </p>
                 </div>
             </div>
         </footer>
