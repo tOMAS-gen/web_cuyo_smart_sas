@@ -11,11 +11,11 @@ import { SiteConfig, HomeData, TechosData, InsulationPageData, ObrasData, Projec
 // ---------------------------------------------------------------------------
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://cuyosmart.com.ar";
-const PHONE_NUMBER = process.env.NEXT_PUBLIC_PHONE_NUMBER || "__NEXT_PUBLIC_PHONE_NUMBER__";
-const PHONE_DISPLAY = process.env.NEXT_PUBLIC_PHONE_DISPLAY || "__NEXT_PUBLIC_PHONE_DISPLAY__";
-const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "__NEXT_PUBLIC_CONTACT_EMAIL__";
-const ADDRESS = process.env.NEXT_PUBLIC_ADDRESS || "__NEXT_PUBLIC_ADDRESS__";
-const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "__NEXT_PUBLIC_WHATSAPP_NUMBER__";
+const PHONE_NUMBER = process.env.NEXT_PUBLIC_PHONE_NUMBER || "+5492617590316";
+const PHONE_DISPLAY = process.env.NEXT_PUBLIC_PHONE_DISPLAY || "+54 9 261 759 0316";
+const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "contacto@cuyosmart.com.ar";
+const ADDRESS = process.env.NEXT_PUBLIC_ADDRESS || "Mendoza, Argentina";
+const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "5492617590316";
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
 const GOOGLE_MAPS_EMBED_URL = process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL || "__NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL__";
 const FACEBOOK_URL = process.env.NEXT_PUBLIC_FACEBOOK_URL || "https://www.facebook.com/profile.php?id=61586370887312";
