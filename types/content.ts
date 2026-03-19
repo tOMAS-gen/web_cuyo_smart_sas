@@ -4,7 +4,6 @@ export interface SiteConfig {
     phone: string;
     phoneDisplay: string;
     contactEmail: string;
-    adminEmail: string;
     address: string;
     whatsappNumber: string;
     whatsappLink: string;

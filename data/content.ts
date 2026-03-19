@@ -14,7 +14,6 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://cuyosmart.com.ar";
 const PHONE_NUMBER = process.env.NEXT_PUBLIC_PHONE_NUMBER || "__NEXT_PUBLIC_PHONE_NUMBER__";
 const PHONE_DISPLAY = process.env.NEXT_PUBLIC_PHONE_DISPLAY || "__NEXT_PUBLIC_PHONE_DISPLAY__";
 const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "__NEXT_PUBLIC_CONTACT_EMAIL__";
-const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL || CONTACT_EMAIL;
 const ADDRESS = process.env.NEXT_PUBLIC_ADDRESS || "__NEXT_PUBLIC_ADDRESS__";
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "__NEXT_PUBLIC_WHATSAPP_NUMBER__";
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
@@ -29,7 +28,6 @@ export const siteConfig: SiteConfig = {
     phone: PHONE_NUMBER,
     phoneDisplay: PHONE_DISPLAY,
     contactEmail: CONTACT_EMAIL,
-    adminEmail: ADMIN_EMAIL,
     address: ADDRESS,
     whatsappNumber: WHATSAPP_NUMBER,
     whatsappLink: WHATSAPP_LINK,

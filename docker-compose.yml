@@ -3,7 +3,7 @@ services:
     image: ghcr.io/tomas-gen/web_cuyo_smart_sas:latest
     container_name: cuyo_smart_sas
     ports:
-      - "3000:3000"
+      - "3005:3000"
     environment:
       # --- URL del sitio ---
       - NEXT_PUBLIC_SITE_URL=https://cuyosmart.com.ar
@@ -12,7 +12,6 @@ services:
       - NEXT_PUBLIC_PHONE_NUMBER=+5492617590316
       - NEXT_PUBLIC_PHONE_DISPLAY=+54 9 261 759 0316
       - NEXT_PUBLIC_CONTACT_EMAIL=contacto@cuyosmart.com.ar
-      - NEXT_PUBLIC_ADMIN_EMAIL=info@cuyosmart.com.ar
       - NEXT_PUBLIC_ADDRESS=Mendoza, Argentina
 
       # --- WhatsApp ---
