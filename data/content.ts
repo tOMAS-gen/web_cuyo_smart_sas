@@ -59,7 +59,7 @@ export const homeData: HomeData = {
         ]
     },
     hero: {
-        title: "Soluciones Integrales de Mantenimiento e Infraestructura",
+        title: "Empresa de Mantenimiento e Infraestructura en Mendoza",
         subtitle: "Calidad industrial y respaldo técnico para empresas, bodegas y hogares. Ejecución garantizada desde 2009.",
         image: "/images/techos/93.jpeg",
         ctaPrimary: "Hablar por WhatsApp",
@@ -154,7 +154,7 @@ export const homeData: HomeData = {
 
 export const techosData: TechosData = {
     meta: {
-        title: "Reparación de Techos e Impermeabilización en Mendoza",
+        title: "Reparación de Techos en Mendoza",
         description: "Soluciones definitivas a filtraciones. Especialistas en diagnóstico estructural, cambio de chapas, zinguería industrial y membranas. Solicite visita técnica.",
         keywords: [
             "reparación de techos Mendoza",
@@ -170,7 +170,7 @@ export const techosData: TechosData = {
         ]
     },
     hero: {
-        title: "Recuperación y Mantenimiento Integral de Cubiertas",
+        title: "Reparación de Techos e Impermeabilización en Mendoza",
         subtitle: "Diagnóstico experto, reparación estructural e impermeabilización definitiva. Extendemos la vida útil de su techo industrial o residencial.",
         image: "/images/techos/08.jpeg",
         cta: "Solicitar Visita Técnica",
@@ -228,7 +228,13 @@ export const techosData: TechosData = {
         text: "Actúe antes de la próxima lluvia. Un diagnóstico a tiempo ahorra dinero.",
         buttonText: "Hablar con un Técnico Ahora",
         whatsappMessage: "Hola CuyoSmart, tengo problemas de zingueria o chapas en mi techo"
-    }
+    },
+    faq: [
+        { q: "¿Cuánto dura una reparación de techo?", a: "Depende del alcance. Una reparación de zinguería puede tomar 1-2 días. Una recuperación integral de cubierta con cambio de chapas e impermeabilización lleva entre 3 y 10 días según la superficie." },
+        { q: "¿Qué tipo de membrana usan para impermeabilizar?", a: "Trabajamos con membranas asfálticas de alto tránsito y membranas líquidas poliuretánicas. Seleccionamos el material según el tipo de superficie (losa, chapa o teja) y las condiciones de uso." },
+        { q: "¿Reparan techos de chapa y de losa?", a: "Sí, trabajamos con ambos sistemas. En chapas realizamos cambio de piezas, zinguería y sellado. En losas, impermeabilización con membrana y tratamiento de fisuras." },
+        { q: "¿Ofrecen garantía sobre la reparación?", a: "Todos nuestros trabajos incluyen garantía escrita sobre mano de obra y materiales. El plazo varía según el tipo de trabajo realizado." },
+    ]
 };
 
 export const insulationPageData: InsulationPageData = {
@@ -248,7 +254,7 @@ export const insulationPageData: InsulationPageData = {
         ]
     },
     hero: {
-        title: "Aislación Térmica de Alto Rendimiento",
+        title: "Aislación Térmica con Poliuretano Expandido en Mendoza",
         subtitle: "Tecnología de Poliuretano Expandido proyectado in situ. Control de temperatura, eliminación de condensación y ahorro energético inmediato.",
         image: "/images/aislacion/03.jpeg",
         cta: "Cotizar Aislación por WhatsApp",
@@ -315,7 +321,13 @@ export const insulationPageData: InsulationPageData = {
         text: "La inversión más inteligente para su propiedad. Confort inmediato.",
         buttonText: "Consultar Precio por m²",
         whatsappMessage: "Hola, quisiera saber el precio del m2 de poliuretano"
-    }
+    },
+    faq: [
+        { q: "¿Cuánto dura el poliuretano proyectado?", a: "Correctamente aplicado y protegido con pintura UV, el poliuretano tiene una vida útil superior a 25 años sin perder sus propiedades aislantes." },
+        { q: "¿Se puede aplicar sobre cualquier techo?", a: "Sí. El poliuretano se adhiere a chapa, losa, teja y hormigón. Se adapta a cualquier geometría sin necesidad de desmontar la cubierta existente." },
+        { q: "¿Cuánto se reduce la temperatura interior?", a: "En techos de chapa sin aislación, la reducción puede superar los 10°C en verano. El ahorro en climatización ronda el 30-40% dependiendo del caso." },
+        { q: "¿Es necesario desocupar el edificio durante la aplicación?", a: "No. La proyección se realiza por fuera del techo. La actividad normal del edificio puede continuar durante la obra." },
+    ]
 };
 
 export const obrasData: ObrasData = {
@@ -337,7 +349,7 @@ export const obrasData: ObrasData = {
         ]
     },
     hero: {
-        title: "Infraestructura y Obras Civiles: Ejecución Profesional",
+        title: "Obras Civiles y Construcción en Seco en Mendoza",
         subtitle: "Construcción en seco y tradicional para la expansión de su empresa. Versatilidad técnica para proyectos llave en mano.",
         image: "/images/obras-civiles/05.jpeg",
         cta: "Cotizar Proyecto"
@@ -413,7 +425,13 @@ export const obrasData: ObrasData = {
         text: "Analicemos juntos la viabilidad técnica y económica de su proyecto.",
         buttonText: "Enviar Planos / Consultar",
         whatsappMessage: "Hola tengo un proyecto de obra y quiero asesoramiento"
-    }
+    },
+    faq: [
+        { q: "¿Trabajan con construcción en seco y tradicional?", a: "Sí, dominamos ambos sistemas. Elegimos el más adecuado según el proyecto: Steel Framing y Durlock para rapidez, albañilería tradicional para solidez estructural." },
+        { q: "¿Cuánto tarda una obra de remodelación?", a: "Depende del alcance. Una división de oficina en seco puede estar lista en 3-5 días. Una remodelación integral con obra húmeda puede llevar 2-4 semanas." },
+        { q: "¿Trabajan con arquitectos y estudios?", a: "Sí, actuamos como brazo ejecutor de estudios de arquitectura. Interpretamos planos, respetamos el diseño original y coordinamos la ejecución completa." },
+        { q: "¿Incluyen la gestión de materiales?", a: "Sí. Ofrecemos servicio llave en mano: compramos, trasladamos y gestionamos todos los materiales. Entregamos la obra terminada." },
+    ]
 };
 
 export const projectsPageData: ProjectsPageData = {
@@ -432,7 +450,7 @@ export const projectsPageData: ProjectsPageData = {
         ]
     },
     hero: {
-        title: "Nuestra Experiencia en Obra",
+        title: "Proyectos y Obras Realizadas en Mendoza",
         subtitle: "Más de 17 años materializando soluciones. Calidad de ejecución comprobable en industrias, comercios y residencias.",
         image: "/images/techos/15.jpeg"
     },
@@ -746,7 +764,7 @@ export const contactPageData: ContactPageData = {
         ]
     },
     hero: {
-        title: "Hablemos de su Proyecto.",
+        title: "Contacto y Presupuesto de Obras en Mendoza",
         subtitle: "Estamos listos para asesorarlo. Solicite una visita técnica o un presupuesto sin cargo.",
         image: null
     },

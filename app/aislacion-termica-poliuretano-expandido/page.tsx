@@ -11,7 +11,7 @@ import {
     LucideIcon
 } from 'lucide-react';
 import { insulationPageData, siteConfig } from '../../data/content';
-import { BreadcrumbJsonLd, ServiceJsonLd } from '@/components/StructuredData';
+import { BreadcrumbJsonLd, ServiceJsonLd, FAQPageJsonLd } from '@/components/StructuredData';
 
 export const metadata: Metadata = {
     title: insulationPageData.meta.title,
@@ -55,6 +55,7 @@ export default function AislacionTermica() {
     return (
         <div className="flex flex-col bg-white">
             <BreadcrumbJsonLd items={[{ name: "Aislación Térmica Poliuretano", path: "/aislacion-termica-poliuretano-expandido" }]} />
+            <FAQPageJsonLd items={insulationPageData.faq} />
             <ServiceJsonLd
                 name="Aislación Térmica con Poliuretano Expandido"
                 description={insulationPageData.meta.description}
@@ -69,6 +70,7 @@ export default function AislacionTermica() {
                             src={insulationPageData.hero.image}
                             alt="Proyección de poliuretano expandido en techo de bodega en Mendoza"
                             fill
+                            sizes="100vw"
                             className="object-cover opacity-40"
                             priority
                         />
@@ -148,6 +150,7 @@ export default function AislacionTermica() {
                                                 src={insulationPageData.hero.image || "/images/aislacion/01.jpeg"}
                                                 alt={app.title}
                                                 fill
+                                                sizes="(max-width: 768px) 100vw, 50vw"
                                                 className="object-cover opacity-80 group-hover:scale-105 transition duration-700"
                                             />
                                         </div>

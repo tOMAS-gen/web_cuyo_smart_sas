@@ -96,6 +96,7 @@ export default function Home() {
                 src={hero.image}
                 alt="Equipo CuyoSmart realizando mantenimiento industrial en Mendoza"
                 fill
+                sizes="100vw"
                 className="object-cover"
                 priority
               />
@@ -162,6 +163,7 @@ export default function Home() {
                       src={service.image}
                       alt={`${service.title.toLowerCase().replace(/ /g, '-')}-mendoza`}
                       fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover hover:scale-105 transition-transform duration-700"
                     />
                   )}
@@ -204,9 +206,9 @@ export default function Home() {
         <section className="py-24 bg-background-secondary">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h3 className="text-3xl md:text-4xl font-bold mb-4 font-montserrat text-primary uppercase tracking-wider">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 font-montserrat text-primary uppercase tracking-wider">
                 {differentials.title}
-              </h3>
+              </h2>
               <div className="w-16 h-1 bg-secondary mx-auto rounded-full" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -252,8 +254,9 @@ export default function Home() {
                 >
                    <Image
                     src={project.image}
-                                     alt={`${project.label} - CuyoSmart Mendoza`}
+                    alt={`${project.label} - CuyoSmart Mendoza`}
                     fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover transform group-hover:scale-110 transition duration-700"
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent group-hover:from-black/50 transition duration-300" />

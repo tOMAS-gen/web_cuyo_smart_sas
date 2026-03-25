@@ -40,8 +40,9 @@ export default function ProyectosClient() {
                         {projectsPageData.hero.image && (
                             <Image
                                 src={projectsPageData.hero.image}
-                                alt="proyectos-obras-realizadas-mendoza"
+                                alt="Proyectos y obras realizadas en Mendoza - CuyoSmart"
                                 fill
+                                sizes="100vw"
                                 className="object-cover opacity-30"
                                 priority
                             />
@@ -93,6 +94,7 @@ export default function ProyectosClient() {
                                         src={project.image}
                                         alt={project.altText || project.title}
                                         fill
+                                        sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
                                         className="object-cover group-hover:scale-110 transition duration-700"
                                     />
                                     <div className="absolute top-4 right-4 bg-primary/90 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm">

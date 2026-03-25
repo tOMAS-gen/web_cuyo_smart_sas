@@ -111,6 +111,7 @@ export interface TechosData {
         buttonText: string;
         whatsappMessage: string;
     };
+    faq: { q: string; a: string }[];
 }
 
 export interface InsulationPageData {
@@ -150,6 +151,7 @@ export interface InsulationPageData {
         buttonText: string;
         whatsappMessage?: string;
     };
+    faq: { q: string; a: string }[];
 }
 
 export interface ObrasData {
@@ -186,6 +188,7 @@ export interface ObrasData {
         buttonText: string;
         whatsappMessage?: string;
     };
+    faq: { q: string; a: string }[];
 }
 
 export interface ProjectsPageData {

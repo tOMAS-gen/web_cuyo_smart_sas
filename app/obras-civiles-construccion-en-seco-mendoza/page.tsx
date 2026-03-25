@@ -10,7 +10,7 @@ import {
 import { obrasData, siteConfig } from "../../data/content";
 import { Metadata } from "next";
 import Image from 'next/image';
-import { BreadcrumbJsonLd, ServiceJsonLd } from '@/components/StructuredData';
+import { BreadcrumbJsonLd, ServiceJsonLd, FAQPageJsonLd } from '@/components/StructuredData';
 
 export const metadata: Metadata = {
     title: obrasData.meta.title,
@@ -51,6 +51,7 @@ export default function ObrasCiviles() {
     return (
         <div className="animate-in fade-in duration-500">
             <BreadcrumbJsonLd items={[{ name: "Obras Civiles y Construcción", path: "/obras-civiles-construccion-en-seco-mendoza" }]} />
+            <FAQPageJsonLd items={obrasData.faq} />
             <ServiceJsonLd
                 name="Obras Civiles y Construcción en Seco"
                 description={obrasData.meta.description}
@@ -65,6 +66,7 @@ export default function ObrasCiviles() {
                             src={obrasData.hero.image}
                             alt="Construcción en seco con Steel Framing en oficinas de Mendoza"
                             fill
+                            sizes="100vw"
                             className="object-cover opacity-30"
                             priority
                         />
@@ -193,6 +195,7 @@ export default function ObrasCiviles() {
                                     src={item.image}
                                     alt={`${item.title.toLowerCase().replace(/ /g, '-')}-Mendoza`}
                                     fill
+                                    sizes="(max-width: 768px) 100vw, 50vw"
                                     className="object-cover transform group-hover:scale-110 transition duration-700"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/40 to-transparent"></div>

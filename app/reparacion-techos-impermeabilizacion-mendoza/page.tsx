@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { techosData, siteConfig } from '../../data/content';
 import { ServiceItem, DifferentialItem } from '@/types/content';
-import { BreadcrumbJsonLd, ServiceJsonLd } from '@/components/StructuredData';
+import { BreadcrumbJsonLd, ServiceJsonLd, FAQPageJsonLd } from '@/components/StructuredData';
 
 export const metadata: Metadata = {
     title: techosData.meta.title,
@@ -58,6 +58,7 @@ export default function ReparacionTechos() {
     return (
         <div className="flex flex-col bg-white">
             <BreadcrumbJsonLd items={[{ name: "Reparación de Techos e Impermeabilización", path: "/reparacion-techos-impermeabilizacion-mendoza" }]} />
+            <FAQPageJsonLd items={techosData.faq} />
             <ServiceJsonLd
                 name="Reparación de Techos e Impermeabilización"
                 description={techosData.meta.description}
@@ -72,6 +73,7 @@ export default function ReparacionTechos() {
                             src={techosData.hero.image}
                             alt="Equipo CuyoSmart reparando techo industrial en Mendoza"
                             fill
+                            sizes="100vw"
                             className="object-cover opacity-30"
                             priority
                         />
@@ -124,6 +126,7 @@ export default function ReparacionTechos() {
                                     src="/images/techos/10.jpeg"
                                     alt="Reparación de cubierta de chapa y zinguería industrial en Mendoza"
                                     fill
+                                    sizes="(max-width: 768px) 100vw, 50vw"
                                     className="object-cover"
                                 />
                             </div>
@@ -147,6 +150,7 @@ export default function ReparacionTechos() {
                                                 src={service.image}
                                                 alt={service.title}
                                                 fill
+                                                sizes="(max-width: 1024px) 100vw, 60vw"
                                                 className="object-cover group-hover:scale-105 transition duration-700"
                                             />
                                         )}
