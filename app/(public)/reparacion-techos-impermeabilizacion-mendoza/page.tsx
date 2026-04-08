@@ -12,7 +12,7 @@ import {
     ArrowRight,
     LucideIcon
 } from 'lucide-react';
-import { techosData, siteConfig } from '../../data/content';
+import { techosData, siteConfig } from "@/data/content";
 import { ServiceItem, DifferentialItem } from '@/types/content';
 import { BreadcrumbJsonLd, ServiceJsonLd, FAQPageJsonLd } from '@/components/StructuredData';
 

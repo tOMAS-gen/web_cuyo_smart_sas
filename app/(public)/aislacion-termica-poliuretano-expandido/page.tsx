@@ -10,7 +10,7 @@ import {
     MessageCircle,
     LucideIcon
 } from 'lucide-react';
-import { insulationPageData, siteConfig } from '../../data/content';
+import { insulationPageData, siteConfig } from "@/data/content";
 import { BreadcrumbJsonLd, ServiceJsonLd, FAQPageJsonLd } from '@/components/StructuredData';
 
 export const metadata: Metadata = {

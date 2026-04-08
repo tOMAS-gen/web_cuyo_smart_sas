@@ -7,7 +7,7 @@ import {
   Briefcase, 
   Clipboard 
 } from "lucide-react";
-import { obrasData, siteConfig } from "../../data/content";
+import { obrasData, siteConfig } from "@/data/content";
 import { Metadata } from "next";
 import Image from 'next/image';
 import { BreadcrumbJsonLd, ServiceJsonLd, FAQPageJsonLd } from '@/components/StructuredData';

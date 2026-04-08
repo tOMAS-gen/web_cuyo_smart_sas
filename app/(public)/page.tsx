@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { homeData, siteConfig } from "../data/content";
+import { homeData, siteConfig } from "@/data/content";
 import * as LucideIcons from "lucide-react";
 import { BreadcrumbJsonLd, ServiceJsonLd } from "@/components/StructuredData";
 

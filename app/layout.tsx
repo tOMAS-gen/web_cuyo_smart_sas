@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Montserrat, Open_Sans } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { WhatsAppFAB } from "@/components/WhatsAppFAB";
 import { siteConfig } from "@/data/content";
 
 const geistSans = Geist({
@@ -46,8 +43,6 @@ export const metadata: Metadata = {
         "mantenimiento industrial Mendoza",
         "presupuesto empresa constructora Mendoza",
     ],
-    // favicon.ico y apple-icon.png en app/ son detectados automáticamente por Next.js
-    // No se necesita configuración manual de icons aquí
     openGraph: {
         title: "Empresa de Mantenimiento e Infraestructura en Mendoza | CuyoSmart",
         description: "Empresa de mantenimiento en Mendoza. Expertos en reparación de techos, impermeabilización, construcción en seco y aislación térmica.",
@@ -75,7 +70,6 @@ export const metadata: Metadata = {
     },
 };
 
-/** Schema.org WebSite structured data — enables Google Sitelinks Searchbox eligibility. */
 function WebSiteJsonLd() {
     const schema = {
         "@context": "https://schema.org",
@@ -95,7 +89,6 @@ function WebSiteJsonLd() {
     );
 }
 
-/** Schema.org Organization structured data so Google Search displays the site logo. */
 function OrganizationJsonLd() {
     const schema = {
         "@context": "https://schema.org",
@@ -117,7 +110,6 @@ function OrganizationJsonLd() {
             siteConfig.socialMedia.linkedin,
         ].filter(url => url && !url.startsWith('__')),
     };
-
     return (
         <script
             type="application/ld+json"
@@ -126,7 +118,6 @@ function OrganizationJsonLd() {
     );
 }
 
-/** Schema.org LocalBusiness structured data for SEO. */
 function LocalBusinessJsonLd() {
     const schema = {
         "@context": "https://schema.org",
@@ -181,56 +172,7 @@ function LocalBusinessJsonLd() {
             siteConfig.socialMedia.linkedin,
         ].filter(url => url && !url.startsWith('__')),
         priceRange: "$$",
-        hasOfferCatalog: {
-            "@type": "OfferCatalog",
-            name: "Servicios de Mantenimiento e Infraestructura",
-            itemListElement: [
-                {
-                    "@type": "OfferCatalog",
-                    name: "Reparación de Techos e Impermeabilización",
-                    itemListElement: [
-                        {
-                            "@type": "Offer",
-                            itemOffered: {
-                                "@type": "Service",
-                                name: "Reparación de Techos",
-                                description: "Diagnóstico estructural, cambio de chapas, zinguería e impermeabilización.",
-                            },
-                        },
-                    ],
-                },
-                {
-                    "@type": "OfferCatalog",
-                    name: "Obras Civiles y Construcción en Seco",
-                    itemListElement: [
-                        {
-                            "@type": "Offer",
-                            itemOffered: {
-                                "@type": "Service",
-                                name: "Construcción en Seco",
-                                description: "Steel Framing, Durlock, tabiquería y cielorrasos.",
-                            },
-                        },
-                    ],
-                },
-                {
-                    "@type": "OfferCatalog",
-                    name: "Aislación Térmica con Poliuretano",
-                    itemListElement: [
-                        {
-                            "@type": "Offer",
-                            itemOffered: {
-                                "@type": "Service",
-                                name: "Aislación Térmica",
-                                description: "Proyección de espuma de poliuretano expandido in situ.",
-                            },
-                        },
-                    ],
-                },
-            ],
-        },
     };
-
     return (
         <script
             type="application/ld+json"
@@ -252,12 +194,7 @@ export default function RootLayout({
                 <LocalBusinessJsonLd />
             </head>
             <body className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} ${openSans.variable} antialiased min-h-screen flex flex-col`}>
-                <Header />
-                <main className="flex-grow">
-                    {children}
-                </main>
-                <WhatsAppFAB />
-                <Footer />
+                {children}
             </body>
         </html>
     );

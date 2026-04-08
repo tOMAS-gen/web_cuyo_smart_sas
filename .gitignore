@@ -43,6 +43,10 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# datos de presupuestos (generados en runtime)
+/data/presupuestos.json
+/data/presupuestos.json.tmp
+
 # vercel
 .vercel
 

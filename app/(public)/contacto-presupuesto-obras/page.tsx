@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
-import { contactPageData, siteConfig } from "../../data/content";
+import { contactPageData, siteConfig } from "@/data/content";
 import { FAQAccordion } from '@/components/FAQAccordion';
 import { ContactForm } from '@/components/ContactForm';
 import { BreadcrumbJsonLd, FAQPageJsonLd } from '@/components/StructuredData';
