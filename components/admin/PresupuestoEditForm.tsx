@@ -2,7 +2,7 @@
 
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import type { FormaPago, Presupuesto, PresupuestoItem } from '@/types/presupuesto';
+import type { FormaPago, Presupuesto, PresupuestoItem, TipoItem } from '@/types/presupuesto';
 
 const FORMAS_PAGO: FormaPago[] = [
   'Efectivo',
@@ -13,6 +13,12 @@ const FORMAS_PAGO: FormaPago[] = [
 ];
 
 const VALIDEZ_OPCIONES = [7, 15, 30, 60, 90];
+
+const TIPOS_ITEM: { value: TipoItem; label: string }[] = [
+  { value: 'material', label: 'Material' },
+  { value: 'mano_de_obra', label: 'Mano de obra' },
+  { value: 'ambos', label: 'Ambos' },
+];
 
 function formatCurrency(value: number): string {
   return new Intl.NumberFormat('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(value);
@@ -26,6 +32,7 @@ export default function PresupuestoEditForm({ presupuesto }: { presupuesto: Pres
     cliente: presupuesto.cliente,
     ubicacion: presupuesto.ubicacion,
     detalle: presupuesto.detalle,
+    plazoRealizacion: presupuesto.plazoRealizacion ?? '',
     validezDias: presupuesto.validezDias,
     formaPago: presupuesto.formaPago,
     estado: presupuesto.estado,
@@ -35,7 +42,7 @@ export default function PresupuestoEditForm({ presupuesto }: { presupuesto: Pres
   const [items, setItems] = useState<PresupuestoItem[]>(
     presupuesto.items?.length
       ? presupuesto.items
-      : [{ descripcion: '', manoDeObra: 0, materiales: 0 }]
+      : [{ descripcion: '', tipo: 'ambos', manoDeObra: 0, materiales: 0 }]
   );
 
   const [errors, setErrors] = useState<string[]>([]);
@@ -50,11 +57,19 @@ export default function PresupuestoEditForm({ presupuesto }: { presupuesto: Pres
   }
 
   function setItem(index: number, field: keyof PresupuestoItem, value: string | number) {
-    setItems((prev) => prev.map((item, i) => i === index ? { ...item, [field]: value } : item));
+    setItems((prev) => prev.map((item, i) => {
+      if (i !== index) return item;
+      const updated = { ...item, [field]: value };
+      if (field === 'tipo') {
+        if (value === 'material') updated.manoDeObra = 0;
+        if (value === 'mano_de_obra') updated.materiales = 0;
+      }
+      return updated;
+    }));
   }
 
   function addItem() {
-    setItems((prev) => [...prev, { descripcion: '', manoDeObra: 0, materiales: 0 }]);
+    setItems((prev) => [...prev, { descripcion: '', tipo: 'ambos', manoDeObra: 0, materiales: 0 }]);
   }
 
   function removeItem(index: number) {
@@ -171,33 +186,56 @@ export default function PresupuestoEditForm({ presupuesto }: { presupuesto: Pres
 
                 <div className="mb-3">
                   <label className="block text-xs font-semibold text-gray-600 mb-1">Descripción *</label>
-                  <input type="text" required maxLength={300}
+                  <textarea required maxLength={600} rows={2}
+                    placeholder="Descripción del ítem (Enter para nueva línea)"
                     value={item.descripcion}
                     onChange={(e) => setItem(index, 'descripcion', e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF9000] focus:border-transparent bg-white" />
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent bg-white resize-y" />
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs font-semibold text-gray-600 mb-1">Mano de obra</label>
-                    <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">$</span>
-                      <input type="number" min={0} step="0.01"
-                        value={item.manoDeObra || ''}
-                        onChange={(e) => setItem(index, 'manoDeObra', e.target.value)}
-                        className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF9000] focus:border-transparent bg-white" />
-                    </div>
+                {/* Tipo de ítem */}
+                <div className="mb-3">
+                  <label className="block text-xs font-semibold text-gray-600 mb-1">Tipo</label>
+                  <div className="flex gap-2">
+                    {TIPOS_ITEM.map((t) => (
+                      <button key={t.value} type="button"
+                        onClick={() => setItem(index, 'tipo', t.value)}
+                        className={`flex-1 text-xs font-semibold py-1.5 rounded-lg border transition-colors ${
+                          (item.tipo ?? 'ambos') === t.value
+                            ? 'bg-[#0B1C3E] text-white border-[#0B1C3E]'
+                            : 'bg-white text-gray-600 border-gray-300 hover:border-secondary'
+                        }`}>
+                        {t.label}
+                      </button>
+                    ))}
                   </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-gray-600 mb-1">Materiales</label>
-                    <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">$</span>
-                      <input type="number" min={0} step="0.01"
-                        value={item.materiales || ''}
-                        onChange={(e) => setItem(index, 'materiales', e.target.value)}
-                        className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF9000] focus:border-transparent bg-white" />
+                </div>
+
+                <div className={`grid gap-3 ${(item.tipo ?? 'ambos') === 'ambos' ? 'grid-cols-2' : 'grid-cols-1'}`}>
+                  {(item.tipo ?? 'ambos') !== 'material' && (
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-600 mb-1">Mano de obra</label>
+                      <div className="relative">
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">$</span>
+                        <input type="number" min={0} step="0.01"
+                          value={item.manoDeObra || ''}
+                          onChange={(e) => setItem(index, 'manoDeObra', e.target.value)}
+                          className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent bg-white" />
+                      </div>
                     </div>
-                  </div>
+                  )}
+                  {(item.tipo ?? 'ambos') !== 'mano_de_obra' && (
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-600 mb-1">Materiales</label>
+                      <div className="relative">
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">$</span>
+                        <input type="number" min={0} step="0.01"
+                          value={item.materiales || ''}
+                          onChange={(e) => setItem(index, 'materiales', e.target.value)}
+                          className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent bg-white" />
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="mt-2 text-right">
@@ -243,6 +281,14 @@ export default function PresupuestoEditForm({ presupuesto }: { presupuesto: Pres
               {FORMAS_PAGO.map((f) => <option key={f} value={f}>{f}</option>)}
             </select>
           </div>
+        </div>
+
+        {/* Plazo de realización */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Plazo de realización <span className="font-normal text-gray-400">(opcional)</span></label>
+          <input type="text" maxLength={150} placeholder="Ej: 5 días hábiles, 2 semanas"
+            value={form.plazoRealizacion} onChange={(e) => setField('plazoRealizacion', e.target.value)}
+            className="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF9000] focus:border-transparent" />
         </div>
 
         {/* Estado */}

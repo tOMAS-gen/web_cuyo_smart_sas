@@ -34,8 +34,10 @@ export async function POST(request: NextRequest) {
     cliente: body.cliente!.trim(),
     ubicacion: body.ubicacion!.trim(),
     detalle: body.detalle!.trim(),
+    plazoRealizacion: body.plazoRealizacion?.trim() || undefined,
     items: body.items!.map(item => ({
       descripcion: item.descripcion.trim(),
+      tipo: item.tipo,
       manoDeObra: Number(item.manoDeObra),
       materiales: Number(item.materiales),
     })),

@@ -1,5 +1,23 @@
-import type { Presupuesto } from '@/types/presupuesto';
+import type { Presupuesto, TipoItem } from '@/types/presupuesto';
 import { siteConfig } from '@/data/content';
+
+const TIPO_LABELS: Record<TipoItem, string> = {
+  material: 'Material',
+  mano_de_obra: 'Mano de obra',
+  ambos: 'Ambos',
+};
+
+const TIPO_BG: Record<TipoItem, string> = {
+  material: '#dbeafe',
+  mano_de_obra: '#ffedd5',
+  ambos: '#dcfce7',
+};
+
+const TIPO_COLOR: Record<TipoItem, string> = {
+  material: '#1d4ed8',
+  mano_de_obra: '#c2410c',
+  ambos: '#15803d',
+};
 
 function fmt(value: number): string {
   return new Intl.NumberFormat('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(value);
@@ -103,28 +121,50 @@ export default function PresupuestoExportView({ p }: { p: Presupuesto }) {
           {/* Cabecera */}
           <div style={{ ...ROW, borderBottom: `2px solid ${NAVY}`, paddingBottom: '6px', marginBottom: '4px' }}>
             <div style={{ ...CELL('auto'), flex: 1, fontSize: '10px', fontWeight: 'bold', color: NAVY, textTransform: 'uppercase' }}>Descripción</div>
-            <div style={{ ...CELL('110px', 'right'), fontSize: '10px', fontWeight: 'bold', color: NAVY, textTransform: 'uppercase' }}>Mano de obra</div>
-            <div style={{ ...CELL('110px', 'right'), fontSize: '10px', fontWeight: 'bold', color: NAVY, textTransform: 'uppercase' }}>Materiales</div>
             <div style={{ ...CELL('110px', 'right'), fontSize: '10px', fontWeight: 'bold', color: NAVY, textTransform: 'uppercase' }}>Subtotal</div>
           </div>
 
           {/* Filas */}
-          {items.map((item, i) => (
-            <div key={i} style={{ ...ROW, padding: '7px 0', borderBottom: '1px solid #f3f4f6' }}>
-              <div style={{ ...CELL('auto'), flex: 1, fontSize: '12px', color: '#374151' }}>{item.descripcion}</div>
-              <div style={{ ...CELL('110px', 'right'), fontSize: '12px', color: NAVY }}>$ {fmt(item.manoDeObra)}</div>
-              <div style={{ ...CELL('110px', 'right'), fontSize: '12px', color: NAVY }}>$ {fmt(item.materiales)}</div>
-              <div style={{ ...CELL('110px', 'right'), fontSize: '12px', fontWeight: 'bold', color: NAVY }}>$ {fmt(item.manoDeObra + item.materiales)}</div>
-            </div>
-          ))}
+          {items.map((item, i) => {
+            const hasBoth = item.manoDeObra > 0 && item.materiales > 0;
+            return (
+              <div key={i} style={{ ...ROW, padding: '6px 0', borderBottom: '1px solid #f3f4f6', alignItems: 'flex-start' }}>
+                <div style={{ ...CELL('auto'), flex: 1 }}>
+                  <div style={{ ...RESET, display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                    <div style={{ ...RESET, fontSize: '12px', color: '#374151', whiteSpace: 'pre-wrap' }}>{item.descripcion}</div>
+                    {item.tipo && (
+                      <span style={{ ...RESET, display: 'inline-block', fontSize: '10px', fontWeight: 'bold', padding: '1px 6px', borderRadius: '4px', backgroundColor: TIPO_BG[item.tipo], color: TIPO_COLOR[item.tipo] }}>
+                        {TIPO_LABELS[item.tipo]}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div style={{ ...CELL('auto'), flexShrink: 0, textAlign: 'right' }}>
+                  <div style={{ ...RESET, fontSize: '12px', fontWeight: 'bold', color: NAVY, textAlign: 'right', whiteSpace: 'nowrap' }}>$ {fmt(item.manoDeObra + item.materiales)}</div>
+                  {hasBoth && (
+                    <div style={{ ...RESET, marginTop: '2px' }}>
+                      <div style={{ ...RESET, fontSize: '10px', color: '#9ca3af', textAlign: 'right', whiteSpace: 'nowrap' }}>Mano de obra: <span style={{ color: '#6b7280' }}>${fmt(item.manoDeObra)}</span></div>
+                      <div style={{ ...RESET, fontSize: '10px', color: '#9ca3af', textAlign: 'right', whiteSpace: 'nowrap' }}>Material: <span style={{ color: '#6b7280' }}>${fmt(item.materiales)}</span></div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
 
-          {/* Subtotales */}
-          <div style={{ ...ROW, padding: '6px 0', borderTop: '1px solid #e5e7eb', marginTop: '2px' }}>
-            <div style={{ ...CELL('auto'), flex: 1, fontSize: '11px', color: '#9ca3af', fontStyle: 'italic' }}>Totales parciales</div>
-            <div style={{ ...CELL('110px', 'right'), fontSize: '11px', color: '#4b5563' }}>$ {fmt(totalMDO)}</div>
-            <div style={{ ...CELL('110px', 'right'), fontSize: '11px', color: '#4b5563' }}>$ {fmt(totalMat)}</div>
-            <div style={{ ...CELL('110px') }}></div>
-          </div>
+          {/* Desglose subtotales — solo si hay ambos tipos */}
+          {totalMDO > 0 && totalMat > 0 && (
+            <div style={{ ...RESET, borderTop: '1px solid #e5e7eb', marginTop: '8px', paddingTop: '6px', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
+              <div style={{ ...ROW, gap: '6px', flexShrink: 0, whiteSpace: 'nowrap' }}>
+                <div style={{ ...RESET, width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#fb923c', display: 'block', flexShrink: 0 }} />
+                <div style={{ ...RESET, fontSize: '11px', color: '#6b7280', whiteSpace: 'nowrap' }}>Mano de obra: <span style={{ fontWeight: 'bold', color: NAVY }}>$ {fmt(totalMDO)}</span></div>
+              </div>
+              <div style={{ ...ROW, gap: '6px', flexShrink: 0, whiteSpace: 'nowrap' }}>
+                <div style={{ ...RESET, width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#60a5fa', display: 'block', flexShrink: 0 }} />
+                <div style={{ ...RESET, fontSize: '11px', color: '#6b7280', whiteSpace: 'nowrap' }}>Materiales: <span style={{ fontWeight: 'bold', color: NAVY }}>$ {fmt(totalMat)}</span></div>
+              </div>
+            </div>
+          )}
 
           {/* Total */}
           <div style={{ ...ROW, backgroundColor: ORANGE, marginTop: '10px', padding: '12px 20px', justifyContent: 'space-between', flexWrap: 'nowrap' }}>
@@ -137,7 +177,7 @@ export default function PresupuestoExportView({ p }: { p: Presupuesto }) {
       {/* CONDICIONES */}
       <div style={{ ...RESET, backgroundColor: '#f9fafb', padding: '14px 24px', borderBottom: '1px solid #e5e7eb' }}>
         <div style={{ ...RESET, fontSize: '9px', fontWeight: 'bold', color: ORANGE, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>Condiciones</div>
-        <div style={{ ...ROW, gap: '40px' }}>
+        <div style={{ ...ROW, gap: '40px', flexWrap: 'wrap' }}>
           <div style={{ ...RESET }}>
             <span style={{ ...RESET, display: 'inline', color: '#6b7280', fontSize: '12px' }}>Validez: </span>
             <span style={{ ...RESET, display: 'inline', fontWeight: 'bold', fontSize: '12px', color: '#374151' }}>{p.validezDias} días</span>
@@ -146,21 +186,21 @@ export default function PresupuestoExportView({ p }: { p: Presupuesto }) {
             <span style={{ ...RESET, display: 'inline', color: '#6b7280', fontSize: '12px' }}>Forma de pago: </span>
             <span style={{ ...RESET, display: 'inline', fontWeight: 'bold', fontSize: '12px', color: '#374151' }}>{p.formaPago}</span>
           </div>
+          {p.plazoRealizacion && (
+            <div style={{ ...RESET, width: '100%' }}>
+              <span style={{ ...RESET, display: 'inline', color: '#6b7280', fontSize: '12px' }}>Plazo de realización: </span>
+              <span style={{ ...RESET, display: 'inline', fontWeight: 'bold', fontSize: '12px', color: '#374151' }}>{p.plazoRealizacion}</span>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* NOTA + FIRMA */}
+      {/* NOTA */}
       <div style={{ ...RESET, padding: '16px 24px' }}>
-        <div style={{ ...RESET, fontSize: '11px', color: '#6b7280', lineHeight: '1.6', marginBottom: '24px' }}>
+        <div style={{ ...RESET, fontSize: '11px', color: '#6b7280', lineHeight: '1.6' }}>
           Este presupuesto es válido por <span style={{ ...RESET, display: 'inline', fontWeight: 'bold' }}>{p.validezDias} días</span> desde la fecha de emisión.
           Los precios pueden variar una vez vencido el plazo de validez.
           Ante cualquier consulta no dude en comunicarse con nosotros.
-        </div>
-        <div style={{ ...ROW, justifyContent: 'flex-end' }}>
-          <div style={{ ...RESET, textAlign: 'center', width: '180px', borderTop: `2px solid ${NAVY}`, paddingTop: '6px' }}>
-            <div style={{ ...RESET, fontSize: '11px', fontWeight: 'bold', color: NAVY }}>Firma y sello</div>
-            <div style={{ ...RESET, fontSize: '10px', color: '#6b7280', marginTop: '2px' }}>CuyoSmart SAS</div>
-          </div>
         </div>
       </div>
 

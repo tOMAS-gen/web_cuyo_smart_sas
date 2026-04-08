@@ -1,6 +1,18 @@
 import Image from 'next/image';
-import type { Presupuesto } from '@/types/presupuesto';
+import type { Presupuesto, TipoItem } from '@/types/presupuesto';
 import { siteConfig } from '@/data/content';
+
+const TIPO_LABELS: Record<TipoItem, string> = {
+  material: 'Material',
+  mano_de_obra: 'Mano de obra',
+  ambos: 'Ambos',
+};
+
+const TIPO_COLORS: Record<TipoItem, string> = {
+  material: 'bg-blue-100 text-blue-700',
+  mano_de_obra: 'bg-orange-100 text-orange-700',
+  ambos: 'bg-green-100 text-green-700',
+};
 
 function formatCurrency(value: number): string {
   return new Intl.NumberFormat('es-AR', {
@@ -99,11 +111,11 @@ export default function PresupuestoPrint({ p }: { p: Presupuesto }) {
           <div className="grid grid-cols-2 gap-x-8 gap-y-1">
             <p className="text-sm text-gray-700 m-0">
               <span className="text-gray-400">Nombre: </span>
-              <strong>{p.cliente}</strong>
+              <span className="font-bold">{p.cliente}</span>
             </p>
             <p className="text-sm text-gray-700 m-0">
               <span className="text-gray-400">Ubicación: </span>
-              <strong>{p.ubicacion}</strong>
+              <span className="font-bold">{p.ubicacion}</span>
             </p>
           </div>
         </div>
@@ -121,30 +133,55 @@ export default function PresupuestoPrint({ p }: { p: Presupuesto }) {
           <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Desglose de costos</p>
 
           {/* Cabecera tabla */}
-          <div className="doc-items-header grid grid-cols-[1fr_auto_auto_auto] gap-x-4 pb-1.5 mb-1 border-b-2 border-[#0B1C3E]">
+          <div className="doc-items-header grid grid-cols-[1fr_auto] gap-x-4 pb-1.5 mb-1 border-b-2 border-[#0B1C3E]">
             <span className="text-[10px] font-bold text-[#0B1C3E] uppercase tracking-wide">Descripción</span>
-            <span className="text-[10px] font-bold text-[#0B1C3E] uppercase tracking-wide text-right w-24">Mano de obra</span>
-            <span className="text-[10px] font-bold text-[#0B1C3E] uppercase tracking-wide text-right w-24">Materiales</span>
             <span className="text-[10px] font-bold text-[#0B1C3E] uppercase tracking-wide text-right w-24">Subtotal</span>
           </div>
 
           {/* Filas */}
-          {(p.items ?? []).map((item, i) => (
-            <div key={i} className="doc-item grid grid-cols-[1fr_auto_auto_auto] gap-x-4 py-2 border-b border-gray-100">
-              <span className="text-sm text-gray-700">{item.descripcion}</span>
-              <span className="text-sm text-[#0B1C3E] text-right w-24">$ {formatCurrency(item.manoDeObra)}</span>
-              <span className="text-sm text-[#0B1C3E] text-right w-24">$ {formatCurrency(item.materiales)}</span>
-              <span className="text-sm font-semibold text-[#0B1C3E] text-right w-24">$ {formatCurrency(item.manoDeObra + item.materiales)}</span>
-            </div>
-          ))}
+          {(p.items ?? []).map((item, i) => {
+            const hasBoth = item.manoDeObra > 0 && item.materiales > 0;
+            return (
+              <div key={i} className="doc-item grid grid-cols-[1fr_auto] gap-x-4 py-1.5 border-b border-gray-100">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <p className="text-sm text-gray-700 whitespace-pre-wrap leading-snug m-0">{item.descripcion}</p>
+                  {item.tipo && (
+                    <span className={`inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded ${TIPO_COLORS[item.tipo]}`}>
+                      {TIPO_LABELS[item.tipo]}
+                    </span>
+                  )}
+                </div>
+                <div className="text-right shrink-0 whitespace-nowrap">
+                  <div className="text-sm font-semibold text-[#0B1C3E]">$ {formatCurrency(item.manoDeObra + item.materiales)}</div>
+                  {hasBoth && (
+                    <div className="text-[10px] text-gray-400 mt-0.5 space-y-0.5">
+                      <div>Mano de obra: <span className="font-medium text-gray-500">${formatCurrency(item.manoDeObra)}</span></div>
+                      <div>Material: <span className="font-medium text-gray-500">${formatCurrency(item.materiales)}</span></div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
 
-          {/* Subtotales */}
-          <div className="doc-subtotales mt-2 grid grid-cols-[1fr_auto_auto_auto] gap-x-4 py-1.5 border-t border-gray-200">
-            <span className="text-xs text-gray-400 italic">Totales parciales</span>
-            <span className="text-xs font-medium text-gray-600 text-right w-24">$ {formatCurrency((p.items ?? []).reduce((a, i) => a + i.manoDeObra, 0))}</span>
-            <span className="text-xs font-medium text-gray-600 text-right w-24">$ {formatCurrency((p.items ?? []).reduce((a, i) => a + i.materiales, 0))}</span>
-            <span className="text-xs font-medium text-gray-600 text-right w-24"></span>
-          </div>
+          {/* Desglose subtotales */}
+          {(() => {
+            const totalMDO = (p.items ?? []).reduce((a, i) => a + i.manoDeObra, 0);
+            const totalMat = (p.items ?? []).reduce((a, i) => a + i.materiales, 0);
+            if (totalMDO === 0 || totalMat === 0) return null;
+            return (
+              <div className="doc-subtotales mt-3 border-t border-gray-200 pt-2 w-full flex flex-col items-end gap-1">
+                <div className="text-xs text-gray-500 flex items-center gap-1.5 whitespace-nowrap">
+                  <span className="inline-block w-2 h-2 rounded-full bg-orange-400 shrink-0"></span>
+                  <span>Mano de obra: <span className="font-bold text-[#0B1C3E]">$ {formatCurrency(totalMDO)}</span></span>
+                </div>
+                <div className="text-xs text-gray-500 flex items-center gap-1.5 whitespace-nowrap">
+                  <span className="inline-block w-2 h-2 rounded-full bg-blue-400 shrink-0"></span>
+                  <span>Materiales: <span className="font-bold text-[#0B1C3E]">$ {formatCurrency(totalMat)}</span></span>
+                </div>
+              </div>
+            );
+          })()}
 
           {/* Total */}
           <div className="doc-total bg-[#FF9000] rounded-xl mt-3 px-6 py-3 flex justify-between items-center">
@@ -156,7 +193,7 @@ export default function PresupuestoPrint({ p }: { p: Presupuesto }) {
         {/* CONDICIONES */}
         <div className="doc-condiciones doc-bg-gray px-6 py-4 bg-gray-50 border-b border-gray-200">
           <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Condiciones</p>
-          <div className="grid grid-cols-2 gap-x-8">
+          <div className="grid grid-cols-2 gap-x-8 gap-y-1">
             <p className="text-sm text-gray-700 m-0">
               <span className="text-gray-400">Validez: </span>
               <strong>{p.validezDias} días</strong>
@@ -165,24 +202,22 @@ export default function PresupuestoPrint({ p }: { p: Presupuesto }) {
               <span className="text-gray-400">Forma de pago: </span>
               <strong>{p.formaPago}</strong>
             </p>
+            {p.plazoRealizacion && (
+              <p className="text-sm text-gray-700 m-0 col-span-2">
+                <span className="text-gray-400">Plazo de realización: </span>
+                <strong>{p.plazoRealizacion}</strong>
+              </p>
+            )}
           </div>
         </div>
 
-        {/* NOTA + FIRMA */}
+        {/* NOTA */}
         <div className="doc-firma px-6 py-5">
-          <p className="text-xs text-gray-400 leading-relaxed mb-6">
+          <p className="text-xs text-gray-400 leading-relaxed m-0">
             Este presupuesto es válido por <strong className="text-gray-600">{p.validezDias} días</strong> desde la fecha de emisión.
             Los precios pueden variar una vez vencido el plazo de validez.
             Ante cualquier consulta no dude en comunicarse con nosotros.
           </p>
-          <div className="flex justify-end">
-            <div className="text-center w-48">
-              <div className="border-t-2 border-[#0B1C3E] pt-2">
-                <p className="text-xs font-bold text-[#0B1C3E] m-0">Firma y sello</p>
-                <p className="text-xs text-gray-400 mt-0.5 m-0">CuyoSmart SAS</p>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* FOOTER azul */}

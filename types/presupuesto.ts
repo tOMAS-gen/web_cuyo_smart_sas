@@ -7,8 +7,11 @@ export type FormaPago =
 
 export type EstadoPresupuesto = 'borrador' | 'enviado' | 'aceptado' | 'rechazado';
 
+export type TipoItem = 'material' | 'mano_de_obra' | 'ambos';
+
 export interface PresupuestoItem {
   descripcion: string;
+  tipo?: TipoItem;
   manoDeObra: number;
   materiales: number;
 }
@@ -20,6 +23,7 @@ export interface Presupuesto {
   cliente: string;
   ubicacion: string;
   detalle: string;
+  plazoRealizacion?: string;
   items: PresupuestoItem[];
   total: number;
   validezDias: number;
