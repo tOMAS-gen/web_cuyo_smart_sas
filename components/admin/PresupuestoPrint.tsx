@@ -22,11 +22,11 @@ function formatCurrency(value: number): string {
 }
 
 function formatFecha(iso: string): string {
-  return new Date(iso).toLocaleDateString('es-AR', {
+  const [year, month, day] = iso.split('T')[0].split('-').map(Number);
+  return new Date(year, month - 1, day).toLocaleDateString('es-AR', {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
-    timeZone: 'America/Argentina/Mendoza',
   });
 }
 

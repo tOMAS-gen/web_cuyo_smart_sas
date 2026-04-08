@@ -23,7 +23,8 @@ function fmt(value: number): string {
   return new Intl.NumberFormat('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(value);
 }
 function fmtFecha(iso: string): string {
-  return new Date(iso).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'America/Argentina/Mendoza' });
+  const [year, month, day] = iso.split('T')[0].split('-').map(Number);
+  return new Date(year, month - 1, day).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' });
 }
 function fmtNum(n: number): string { return String(n).padStart(4, '0'); }
 
