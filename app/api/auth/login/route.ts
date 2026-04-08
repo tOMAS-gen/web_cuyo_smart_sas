@@ -17,7 +17,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Usuario o contraseña incorrectos' }, { status: 401 });
   }
 
-  const token = await createSessionToken();
+  let token: string;
+  try {
+    token = await createSessionToken();
+  } catch (err) {
+    console.error('[auth/login] Error al crear el token de sesión:', err);
+    return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
+  }
 
   const response = NextResponse.json({ ok: true });
   response.cookies.set(SESSION_COOKIE, token, {

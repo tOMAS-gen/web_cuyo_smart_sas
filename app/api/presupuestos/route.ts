@@ -47,6 +47,11 @@ export async function POST(request: NextRequest) {
     notas: body.notas?.trim(),
   };
 
-  const presupuesto = await createPresupuesto(input);
-  return NextResponse.json(presupuesto, { status: 201 });
+  try {
+    const presupuesto = await createPresupuesto(input);
+    return NextResponse.json(presupuesto, { status: 201 });
+  } catch (err) {
+    console.error('[presupuestos] Error al guardar:', err);
+    return NextResponse.json({ error: `Error al guardar: ${(err as Error).message}` }, { status: 500 });
+  }
 }

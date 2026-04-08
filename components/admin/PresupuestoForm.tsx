@@ -102,8 +102,14 @@ export default function PresupuestoForm() {
         const data = await res.json();
         router.push(`/admin/${data.id}`);
       } else {
-        const data = await res.json();
-        setErrors(data.errors ?? [data.error ?? 'Error al guardar']);
+        let msgs = ['Error al guardar'];
+        try {
+          const data = await res.json();
+          msgs = data.errors ?? [data.error ?? `Error del servidor (${res.status})`];
+        } catch {
+          msgs = [`Error del servidor (${res.status})`];
+        }
+        setErrors(msgs);
       }
     } catch {
       setErrors(['Error de conexión. Intente nuevamente.']);

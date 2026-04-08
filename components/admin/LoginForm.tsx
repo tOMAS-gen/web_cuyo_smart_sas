@@ -27,8 +27,14 @@ export default function LoginForm() {
         router.push('/admin');
         router.refresh();
       } else {
-        const data = await res.json();
-        setError(data.error ?? 'Error al iniciar sesión');
+        let errorMsg = 'Error al iniciar sesión';
+        try {
+          const data = await res.json();
+          errorMsg = data.error ?? errorMsg;
+        } catch {
+          errorMsg = `Error del servidor (${res.status})`;
+        }
+        setError(errorMsg);
       }
     } catch {
       setError('Error de conexión. Intente nuevamente.');
