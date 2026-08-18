@@ -1,6 +1,8 @@
-import Image from 'next/image';
+import { forwardRef } from 'react';
 import type { Presupuesto, TipoItem } from '@/types/presupuesto';
 import { siteConfig } from '@/data/content';
+import { formatFechaDDMMYYYY } from '@/lib/format-fecha';
+import { FONT } from './recibo-doc';
 
 const TIPO_LABELS: Record<TipoItem, string> = {
   material: 'Material',
@@ -21,20 +23,23 @@ function formatCurrency(value: number): string {
   }).format(value);
 }
 
-function formatFecha(iso: string): string {
-  const [year, month, day] = iso.split('T')[0].split('-').map(Number);
-  return new Date(year, month - 1, day).toLocaleDateString('es-AR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  });
-}
-
 function formatNumero(n: number): string {
   return String(n).padStart(4, '0');
 }
 
-export default function PresupuestoPrint({ p }: { p: Presupuesto }) {
+/**
+ * Contenedor imprimible/exportable del presupuesto. Se expone por `ref` para
+ * que la exportación a imagen rasterice el mismo nodo que se ve en pantalla
+ * (mismo patrón que `ReciboPrint`/`ReciboDocument` — fuente única, sin un
+ * árbol de componentes duplicado como el que tenía `PresupuestoExportView`,
+ * ya eliminado).
+ *
+ * La sombra decorativa vive en un `<div>` wrapper externo y **nunca** en
+ * `.doc-root`: al exportar el nodo visible, un `box-shadow` en el nodo raíz
+ * se rasteriza como halo gris (mismo hallazgo de research.md § 4 que motivó
+ * el wrapper de sombra en `ReciboPrint.tsx`).
+ */
+const PresupuestoPrint = forwardRef<HTMLDivElement, { p: Presupuesto }>(function PresupuestoPrint({ p }, ref) {
   return (
     <>
       <style>{`
@@ -42,7 +47,6 @@ export default function PresupuestoPrint({ p }: { p: Presupuesto }) {
           @page { size: A4 portrait; margin: 12mm 12mm; background: white; }
           html, body { background: white !important; margin: 0 !important; padding: 0 !important; }
           * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-          .no-print { display: none !important; }
 
           /* Fondo blanco puro en todas las secciones grises */
           .doc-bg-gray { background-color: white !important; }
@@ -52,7 +56,6 @@ export default function PresupuestoPrint({ p }: { p: Presupuesto }) {
             max-width: 100% !important;
             border-radius: 0 !important;
             overflow: visible !important;
-            box-shadow: none !important;
             background: white !important;
           }
 
@@ -76,16 +79,16 @@ export default function PresupuestoPrint({ p }: { p: Presupuesto }) {
         }
       `}</style>
 
-      <div className="doc-root max-w-[680px] mx-auto bg-white rounded-2xl shadow-lg" style={{ fontFamily: 'Arial, sans-serif' }}>
+      <div className="w-fit mx-auto shadow-lg print:shadow-none">
+        <div ref={ref} className="doc-root max-w-[680px] bg-white rounded-2xl" style={{ fontFamily: FONT.family }}>
 
         {/* HEADER azul */}
         <div className="doc-header bg-[#0B1C3E] px-6 py-5 flex items-center justify-between gap-4">
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element -- next/image no exporta de forma confiable con dom-to-image-more, mismo criterio que ReciboDocument.tsx */}
+          <img
             src="/brand/logo_name_completo_horizontal.svg"
             alt="CuyoSmart SAS"
-            width={190}
-            height={70}
-            className="h-10 w-auto brightness-0 invert"
+            style={{ height: '40px', width: 'auto', objectFit: 'contain', border: 'none', filter: 'brightness(0) invert(1)' }}
           />
           <div className="text-right text-white">
             <p className="font-bold text-base leading-tight">CuyoSmart SAS</p>
@@ -101,7 +104,7 @@ export default function PresupuestoPrint({ p }: { p: Presupuesto }) {
             Presupuesto N° {formatNumero(p.numero)}
           </p>
           <p className="text-white text-sm font-medium">
-            Fecha: {formatFecha(p.fecha)}
+            Fecha: {formatFechaDDMMYYYY(p.fecha)}
           </p>
         </div>
 
@@ -244,7 +247,10 @@ export default function PresupuestoPrint({ p }: { p: Presupuesto }) {
           </span>
         </div>
 
+        </div>
       </div>
     </>
   );
-}
+});
+
+export default PresupuestoPrint;

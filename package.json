@@ -6,7 +6,8 @@
     "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "verify:logic": "node scripts/verify-pure-logic.mjs"
   },
   "dependencies": {
     "dom-to-image-more": "^3.7.2",

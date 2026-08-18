@@ -183,9 +183,77 @@ npm run build
 
 # Sin errores de linting
 npm run lint
+
+# Logica pura del sistema de comprobantes (conversion numero-a-letras, fechas)
+npm run verify:logic
 ```
 
-No hay tests unitarios configurados actualmente. El proyecto no define un script `test` en `package.json`.
+No hay un framework de tests (Jest/Vitest) configurado — el proyecto es de
+un solo administrador y agregar uno no esta justificado hoy (Constitucion,
+Principio V). En su lugar hay dos niveles de verificacion, ambos sin
+dependencias permanentes nuevas en `package.json`:
+
+### Tier 1 — logica pura (`npm run verify:logic`)
+
+`scripts/verify-pure-logic.mjs` usa `node:assert` nativo (Node 22+ soporta
+TypeScript de forma nativa via type-stripping, sin `ts-node`) para verificar
+`lib/numero-a-letras.ts` y `lib/format-fecha.ts` contra los casos limite
+conocidos: montos de 1.000.000.000+, tildes de "veinti-", centavos con ruido
+de punto flotante, y el bug de desfase de un dia en fechas. Es gratis
+ejecutarlo siempre — no requiere servidor ni navegador.
+
+### Tier 2 — verificacion visual con navegador real (`scripts/visual-check.mjs`)
+
+Formaliza el flujo de verificacion manual usado durante el desarrollo del
+sistema de comprobantes: login, exportar un recibo y un presupuesto como
+imagen, y confirmar que no aparecen bordes/recuadros espurios (el bug de
+"recuadro fantasma" de `dom-to-image-more` con el reset de Tailwind), que las
+dimensiones exportadas son las esperadas, y que la impresion en A4 horizontal
+queda centrada sin ocupar toda la hoja.
+
+Requiere Playwright y pngjs, que **no** son dependencias permanentes del
+proyecto:
+
+```bash
+npm install --no-save playwright pngjs   # una vez, por sesion de verificacion
+npm run dev                              # en otra terminal
+node scripts/visual-check.mjs            # usa http://localhost:3000 por defecto
+npm uninstall playwright pngjs           # al terminar
+```
+
+El script usa el primer recibo y el primer presupuesto que encuentre
+navegando el panel (via `/admin/recibos`, un presupuesto con recibos, o una
+cuenta con recibos) — no requiere IDs fijos. Si no hay ningun recibo o
+presupuesto cargado, esos chequeos se omiten explicitamente en vez de fallar
+en falso.
+
+No se agrega este flujo al CI de Docker (`docker-build.yml`): el proyecto
+no tiene mas CI que el build de la imagen, y automatizar un navegador ahi
+seria sobre-ingenieria para esta escala. Correrlo a mano despues de tocar
+`ReciboDocument.tsx`, `PresupuestoPrint.tsx`, `useReciboExport.ts`,
+`ExportImageButton.tsx` o `recibo-doc.ts` es el criterio actual.
+
+### Checklist de cierre manual (lo que ningun script puede verificar solo)
+
+Estos puntos requieren ojo humano — el Tier 2 confirma que no hay defectos
+de renderizado, pero no que el resultado se vea "bien":
+
+- [ ] Imprimir un recibo real (Ctrl+P → Guardar como PDF, o a una impresora
+  fisica) y confirmar que en A4 horizontal queda centrado, legible, sin
+  cortes — no solo que las metricas den simetricas.
+- [ ] Comparar la onda decorativa de cabecera/pie contra
+  `modelo-de-resivo.jpeg` (la referencia del cliente): confirmar que se
+  percibe como identidad de marca sutil, no como ruido visual ni como algo
+  demasiado tenue para notarse.
+- [ ] Exportar un recibo con textos largos en observaciones/concepto/recibi-de
+  simultaneamente y confirmar visualmente que nada se superpone con el pie
+  (el `WebkitLineClamp` de observaciones y el presupuesto de espacio de
+  `ReciboDocument.tsx` estan calculados para el caso normal, no para el
+  peor caso absoluto de los 3 campos a la vez).
+- [ ] Revisar el presupuesto exportado con una lista de items larga (10+)
+  contra la vista en pantalla, campo por campo — el spike de viabilidad de
+  CSS Grid en `foreignObject` (specs/002, research.md § 5) paso con 6 items;
+  no se re-verifico con listas mucho mas largas.
 
 ## Imagenes Remotas
 

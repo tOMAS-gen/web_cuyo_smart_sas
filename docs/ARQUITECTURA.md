@@ -174,8 +174,130 @@ El proyecto tiene un set de dependencias minimo:
 - `next` - Framework
 - `react`, `react-dom` - UI
 - `lucide-react` - Iconos
+- `jose` - Firma/verificacion de JWT (panel admin)
+- `nanoid` - Generacion de IDs para presupuestos y recibos
+- `dom-to-image-more` - Exportacion de presupuestos/recibos a imagen
 
 **Desarrollo:**
 - `tailwindcss`, `@tailwindcss/postcss` - Estilos
 - `typescript`, `@types/*` - Tipado
 - `eslint`, `eslint-config-next` - Linting
+
+## Panel Administrativo (`/admin`)
+
+Ademas del sitio publico de marketing, el proyecto incluye un panel privado
+(`/admin`) para que el dueno gestione presupuestos y recibos de pago. A
+diferencia del resto del sitio, este modulo si tiene backend (API routes) y
+persistencia de datos.
+
+### Autenticacion
+
+- Sesion basada en JWT firmado con `jose` (`lib/auth.ts`), almacenado en la
+  cookie `cuyo_admin_session`.
+- `proxy.ts` (middleware) protege `/admin/:path*`, `/api/presupuestos/:path*`
+  y `/api/recibos/:path*`: sin sesion valida, redirige a `/admin/login` (o
+  responde `401` en rutas `/api/`).
+- Credenciales configuradas via variables de entorno server-only
+  (`ADMIN_USERNAME`, `ADMIN_PASSWORD`, `SESSION_SECRET`).
+
+### Persistencia
+
+Sin base de datos externa: cada dominio de datos se persiste en su propio
+archivo JSON bajo `data/`, con escritura atomica (`fs.writeFile` a un archivo
+`.tmp` seguido de `fs.rename`) para evitar corrupcion ante escrituras
+concurrentes o cortes de proceso.
+
+| Store | Archivo | Modulo |
+| :--- | :--- | :--- |
+| Presupuestos | `data/presupuestos.json` | `lib/presupuestos-store.ts` |
+| Recibos | `data/recibos.json` | `lib/recibos-store.ts` |
+
+Ambos archivos estan en `.gitignore` (datos generados en runtime, no se
+versionan).
+
+### Modulo de Recibos
+
+Cada presupuesto puede tener uno o mas recibos de pago asociados
+(`Recibo.presupuestoId`). El detalle de un presupuesto (`/admin/[id]`)
+muestra el resumen de **entregado** (suma de montos de sus recibos) y
+**saldo pendiente** (total del presupuesto menos entregado), calculados en
+tiempo de lectura (no se persisten como campos denormalizados).
+
+- Los recibos usan una numeracion correlativa **global**, independiente del
+  numero de presupuesto.
+- No son editables una vez creados: la unica correccion posible ante un
+  error de carga es eliminar el recibo y crear uno nuevo.
+- Al eliminar un presupuesto, sus recibos se eliminan en cascada
+  (`deletePresupuesto()` invoca `deleteRecibosByPresupuesto()`) para evitar
+  registros huerfanos.
+- Cada recibo tiene su propia vista de detalle/exportacion
+  (`/admin/[id]/recibos/[reciboId]`), reproduciendo el diseno oficial de
+  CuyoSmart (logo, CUIT, telefono, correo, campos del recibo, forma de pago,
+  firma, onda decorativa de marca en cabecera/pie). Se exporta como imagen
+  (`dom-to-image-more`) o como PDF (dialogo de impresion nativo del navegador
+  via `window.print()` + CSS `@media print`, centrado en A4 horizontal sin
+  ocupar toda la hoja — ver `PRINT_TARGET_WIDTH_MM` en `recibo-doc.ts`). El
+  presupuesto (`/admin/[id]`, `components/admin/PresupuestoPrint.tsx`) sigue
+  este mismo patron: un unico nodo, expuesto por `ref` desde
+  `app/admin/[id]/PresupuestoDocumentPanel.tsx`, sirve para pantalla,
+  impresion y exportacion — ya no existe un arbol de componentes duplicado
+  para la exportacion (el antiguo `PresupuestoExportView.tsx` + host oculto
+  por `getElementById` se eliminaron).
+
+Ver `specs/001-sistema-recibos/` para el detalle completo de especificacion,
+plan y decisiones de diseno de este modulo.
+
+### Receta de Exportacion de Imagen del Comprobante
+
+`components/admin/useReciboExport.ts` rasteriza el comprobante a PNG con
+`dom-to-image-more` siguiendo una receta no negociable:
+
+- `width`/`height` se pasan a `toBlob` ya en **pixeles finales**
+  (`RECIBO_DOC.width/height × EXPORT_SCALE`, p. ej. `1002×802 × 2 = 2004×1604`),
+  mientras que el nodo en pantalla se agranda con CSS
+  `style.transform: scale(EXPORT_SCALE)` + `transformOrigin: 'top left'`. Asi
+  `dom-to-image-more` hace un blit 1:1 sin remuestreo.
+- **Nunca** se pasa la opcion `scale` de `dom-to-image-more`: esa opcion fuerza
+  un `ctx.scale(2,2)` sobre el `fillRect` blanco opaco del canvas interno, lo
+  que deja una franja de cobertura parcial (semi-transparente) en el borde del
+  documento exportado. Esa es la causa raiz del defecto de borde que la receta
+  de arriba evita.
+- `EXPORT_SCALE` es una constante literal (nunca se deriva de
+  `devicePixelRatio` ni del zoom del navegador), y `bgcolor` es siempre
+  identico a `RECIBO_DOC.background`.
+- Antes de rasterizar es obligatorio esperar `await document.fonts.ready`: sin
+  eso, el `foreignObject` interno de `dom-to-image-more` maqueta el texto con
+  metricas de fuente de fallback y los saltos de linea de la imagen exportada
+  no coinciden con lo que se ve en pantalla.
+- La familia tipografica del comprobante se referencia via la variable CSS de
+  `next/font` (`var(--font-montserrat)`), nunca con un nombre de fuente
+  hardcodeado, para que la fuente autoalojada se resuelva igual en pantalla y
+  en la exportacion.
+- Se pasa siempre `filterStyles: filterExportBorderStyles` (definido en
+  `components/admin/recibo-doc.ts`, reutilizado por el export de recibos y de
+  presupuestos): Tailwind Preflight aplica `border: 0 solid` como reset global
+  a *todo* elemento (incluye variantes fisicas y logicas: `border-top-style`,
+  `border-block-style`, `border-inline-end`, etc.). `dom-to-image-more`
+  compara cada propiedad computada contra un iframe sandbox que no carga nuestro
+  CSS, encuentra que el estilo de borde difiere del default del sandbox, y lo
+  copia al clon de **cada** nodo — aunque el ancho sea `0px`. El rasterizado
+  SVG→canvas pinta ese borde de ancho 0 pero estilo `solid` como una linea de
+  1px visible alrededor de todos los elementos ("recuadro" fantasma en cada
+  fila/campo del documento, con texto recortado como efecto secundario). El
+  filtro suprime cualquier propiedad que transporte un `border-style` (longhand
+  fisico/logico o shorthand) salvo que el elemento tenga un borde real (ancho
+  > 0) en al menos un lado fisico — asi se preservan los bordes intencionales
+  del diseno (caja de numero, bloque de importe, observaciones) sin heredar el
+  reset global de Tailwind. Verificado con `toSvg()` inspeccionando el XML
+  intermedio: la propiedad ofensora aparecia como
+  `border-block-end: 0px solid rgb(11, 28, 62)`.
+
+`components/admin/recibo-doc.ts` es la **fuente unica** de geometria
+(`RECIBO_DOC`), paleta (`COLORS`) y tipografia (`FONT`) del comprobante.
+Ningun literal de color de marca ni dimension del documento debe vivir fuera
+de este modulo dentro de `components/admin/` ni `app/admin/`; el panel usa en
+cambio las utilidades de token (`bg-primary`, `text-secondary`, etc.) que
+consumen las variables `@theme` de `app/globals.css`.
+
+`proxy.ts` protege ademas `/api/cuentas-recibos/:path*` bajo el mismo matcher
+que `/api/presupuestos` y `/api/recibos`: sin sesion valida responde `401`.

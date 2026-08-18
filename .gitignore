@@ -31,6 +31,10 @@
 # agent / IDE metadata
 .agents/
 .trae/
+.claude/
+.kimi-code/
+.opencode/
+.specify/
 skills-lock.json
 AGENTS.md
 
@@ -46,6 +50,17 @@ yarn-error.log*
 # datos de presupuestos (generados en runtime)
 /data/presupuestos.json
 /data/presupuestos.json.tmp
+
+# datos de recibos (generados en runtime)
+/data/recibos.json
+/data/recibos.json.tmp
+
+# datos de cuentas de recibos (generados en runtime)
+/data/cuentas-recibos.json
+/data/cuentas-recibos.json.tmp
+
+# copias de seguridad locales de datos de producción (nunca al repo)
+/data_backups/
 
 # vercel
 .vercel

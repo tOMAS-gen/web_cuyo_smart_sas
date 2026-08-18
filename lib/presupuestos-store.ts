@@ -2,6 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { nanoid } from 'nanoid';
 import type { Presupuesto, PresupuestosDB, PresupuestoInput } from '@/types/presupuesto';
+import { deleteRecibosByPresupuesto } from '@/lib/recibos-store';
 
 const DATA_DIR = process.env.DATA_DIR || path.join(process.cwd(), 'data');
 const DB_FILE = path.join(DATA_DIR, 'presupuestos.json');
@@ -61,6 +62,13 @@ export async function deletePresupuesto(id: string): Promise<boolean> {
   const db = await readDB();
   const index = db.presupuestos.findIndex((p) => p.id === id);
   if (index === -1) return false;
+  // Eliminación en cascada: los hijos se borran ANTES que el padre. No hay
+  // transacción real entre los dos archivos JSON — si se borrara el padre
+  // primero y esta escritura fallara, quedarían recibos huérfanos
+  // referenciando un presupuestoId inexistente e inalcanzable desde la UI.
+  // En este orden, un fallo aquí deja el presupuesto todavía visible y
+  // borrable, con sus recibos ya limpios.
+  await deleteRecibosByPresupuesto(id);
   db.presupuestos.splice(index, 1);
   await writeDB(db);
   return true;

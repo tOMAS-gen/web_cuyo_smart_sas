@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+/*
+ * Tokens de marca (modo claro únicamente; ver research.md § 9). Confirmados
+ * disponibles aquí para el panel de comprobantes: --color-primary,
+ * --color-secondary, --color-tertiary, --color-background,
+ * --color-background-secondary, --font-montserrat, --font-opensans,
+ * --radius-cuyo. No se agregan tokens de estado (--color-success/--color-danger)
+ * — fuera de alcance, ver research.md § 9.
+ */
 @theme {
   --color-primary: #0B1C3E;
   --color-secondary: #FF9000;
@@ -100,3 +108,28 @@ a, button {
 .animation-delay-300 { animation-delay: 0.3s; }
 .animation-delay-500 { animation-delay: 0.5s; }
 .animation-delay-700 { animation-delay: 0.7s; }
+
+/* Animación suave de entrada para modales */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Ocultar scrollbar manteniendo funcionalidad */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/*
+ * Convención única de ocultado en impresión (research.md § 7): usar la
+ * variante `print:hidden` de Tailwind (ya empleada en app/admin/layout.tsx)
+ * en todo el panel, en lugar de la clase `.no-print` ad-hoc que hoy sólo
+ * existe dentro del <style> de ReciboPrint bajo @media print. No se
+ * redefine `.no-print` aquí a propósito: mantener dos convenciones para el
+ * mismo objetivo fue descartado en research.md § 7 (alternativas
+ * consideradas).
+ */
