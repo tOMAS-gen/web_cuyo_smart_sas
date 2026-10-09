@@ -39,8 +39,10 @@ export interface Garantia {
   fechaEmision: string;
   observaciones?: string;
 
-  /** Si es true, el documento muestra la firma global de la empresa (si existe). */
+  /** Muestra la firma del certificado o, si no tiene una, la firma global. */
   incluirFirmaEmpresa: boolean;
+  /** Firma de la empresa propia de este certificado, en formato data URL. */
+  firmaEmpresaDataUrl?: string;
   /** data:image/(png|jpeg|webp);base64,... */
   firmaClienteDataUrl?: string;
 

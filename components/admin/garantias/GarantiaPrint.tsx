@@ -2,7 +2,6 @@ import type { CSSProperties } from 'react';
 import type { Garantia } from '@/types/garantia';
 import {
   aniosEnTexto,
-  formatNumeroDoc,
   numeroPresupuestoTexto,
   textosGarantia,
 } from '@/lib/garantia-logic';
@@ -83,7 +82,7 @@ export default function GarantiaPrint({
     `}</style>
       <article
         className="garantia-document"
-        aria-label={`Certificado de garantía N.º ${formatNumeroDoc(g.numero)}`}
+        aria-label="Certificado de garantía"
         style={{
           fontFamily: 'var(--font-open-sans), Arial, sans-serif',
           color: COLORS.gray,
@@ -135,9 +134,6 @@ export default function GarantiaPrint({
           <h1 style={{ fontSize: '14pt', fontWeight: 800, margin: 0, fontFamily: FONT.family }}>
             CERTIFICADO DE GARANTÍA
           </h1>
-          <p style={{ margin: '3px 0 0', fontSize: '9pt' }}>
-            N.º <strong>{formatNumeroDoc(g.numero)}</strong>
-          </p>
         </div>
         <div className="garantia-content">
           <p style={paragraph}>{textos.intro}</p>
@@ -205,7 +201,10 @@ export default function GarantiaPrint({
               }}
             >
               {[
-                { label: 'CUYO SMART S.A.S.', image: g.incluirFirmaEmpresa ? firmaEmpresa : null },
+                {
+                  label: 'CUYO SMART S.A.S.',
+                  image: g.incluirFirmaEmpresa ? g.firmaEmpresaDataUrl ?? firmaEmpresa : null,
+                },
                 { label: 'CLIENTE', image: g.firmaClienteDataUrl },
               ].map((firma) => (
                 <div key={firma.label} style={{ textAlign: 'center' }}>

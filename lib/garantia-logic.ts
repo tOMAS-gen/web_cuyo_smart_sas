@@ -231,6 +231,12 @@ export function validarGarantiaInput(
   const fechaEmision = texto(body.fechaEmision);
   if (!esFechaValida(fechaEmision)) errors.push('La fecha de emisión es requerida');
 
+  const firmaEmpresaDataUrl = textoOpcional(body.firmaEmpresaDataUrl);
+  if (firmaEmpresaDataUrl) {
+    const errorFirma = validarFirmaDataUrl(firmaEmpresaDataUrl);
+    if (errorFirma) errors.push(`Firma de la empresa: ${errorFirma}`);
+  }
+
   const firmaClienteDataUrl = textoOpcional(body.firmaClienteDataUrl);
   if (firmaClienteDataUrl) {
     const errorFirma = validarFirmaDataUrl(firmaClienteDataUrl);
@@ -263,6 +269,7 @@ export function validarGarantiaInput(
     fechaEmision,
     observaciones: textoOpcional(body.observaciones),
     incluirFirmaEmpresa: body.incluirFirmaEmpresa === true,
+    firmaEmpresaDataUrl,
     firmaClienteDataUrl,
   };
   return { errors, input };

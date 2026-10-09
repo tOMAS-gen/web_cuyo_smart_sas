@@ -172,7 +172,7 @@ function FirmaEmpresaSettings({ initialFirma }: { initialFirma: string | null })
   return (
     <FormSection
       title="Firma de la empresa"
-      description="La firma es compartida. Si la cambiás o eliminás, se actualizará en todos los certificados que la incluyen."
+      description="La firma es compartida. Si la cambiás o eliminás, se actualizará en los certificados que la usan. Los que tienen una firma propia conservarán esa firma."
     >
       <FirmaInput
         label="Firma de Cuyo Smart S.A.S."
@@ -227,7 +227,7 @@ function FirmaEmpresaSettings({ initialFirma }: { initialFirma: string | null })
         open={removeOpen}
         title="¿Eliminar la firma de la empresa?"
         busy={busy}
-        description="Dejará de aparecer en todos los certificados. Se conservarán los espacios para firmar en papel."
+        description="Dejará de aparecer en los certificados que usan la firma compartida. Las firmas propias de cada certificado y los espacios para firmar en papel se conservarán."
         confirmLabel={busy ? 'Eliminando…' : 'Eliminar firma'}
         error={error}
         onConfirm={() => void persist(true)}

@@ -93,7 +93,9 @@ export default function GarantiaForm({
   const [resumen, setResumen] = useState<GarantiaPrefill['resumenPagos'] | null>(null);
   const [retry, setRetry] = useState(0);
   const [saving, setSaving] = useState(false);
-  const [processingFirma, setProcessingFirma] = useState(false);
+  const [processingFirmaCliente, setProcessingFirmaCliente] = useState(false);
+  const [processingFirmaEmpresa, setProcessingFirmaEmpresa] = useState(false);
+  const processingFirma = processingFirmaCliente || processingFirmaEmpresa;
   const [refreshingOptions, startRefresh] = useTransition();
   const [errors, setErrors] = useState<string[]>([]);
   const errorsRef = useRef<HTMLDivElement>(null);
@@ -580,44 +582,45 @@ export default function GarantiaForm({
             </FormSection>
             <FormSection
               title="Firmas"
-              description="Podés incluir imágenes de las firmas o dejar los espacios para firmar en papel."
+              description="Podés dibujar o subir ambas firmas, o dejar los espacios para firmar en papel."
             >
               <label className="flex items-start gap-3 text-sm font-semibold">
                 <input
                   type="checkbox"
                   className="mt-1 accent-primary"
                   checked={form.incluirFirmaEmpresa}
-                  disabled={!firmaEmpresa}
+                  disabled={processingFirmaEmpresa}
                   onChange={(e) => update('incluirFirmaEmpresa', e.target.checked)}
                 />
                 Incluir firma de la empresa
               </label>
-              {!firmaEmpresa && (
-                <p className="text-sm text-gray-500">
-                  Todavía no hay una firma de empresa cargada. Podés agregarla en{' '}
-                  <Link href="/admin/garantias/tipos" target="_blank" className="underline">
-                    Tipos y firma
-                  </Link>
-                  .
-                  {form.incluirFirmaEmpresa &&
-                    ' Este certificado conservará la opción de incluirla cuando vuelva a estar disponible.'}
-                </p>
-              )}
-              {firmaEmpresa && form.incluirFirmaEmpresa && (
-                <div className="rounded-xl border border-gray-200 bg-white p-3">
-                  {/* eslint-disable-next-line @next/next/no-img-element -- Imagen de firma local. */}
-                  <img
-                    src={firmaEmpresa}
-                    alt="Firma de la empresa"
-                    className="h-24 max-w-full object-contain"
+              {form.incluirFirmaEmpresa && (
+                <div className="space-y-3">
+                  <FirmaInput
+                    label="Firma de la empresa"
+                    value={form.firmaEmpresaDataUrl ?? firmaEmpresa ?? undefined}
+                    onChange={(value) => {
+                      setForm((current) => ({
+                        ...current,
+                        firmaEmpresaDataUrl: value,
+                        incluirFirmaEmpresa: Boolean(value),
+                      }));
+                    }}
+                    onProcessingChange={setProcessingFirmaEmpresa}
+                    disabled={saving}
                   />
+                  <p className="text-xs text-gray-500">
+                    La firma que dibujes o subas se guardará solo en este certificado.
+                    {firmaEmpresa && !form.firmaEmpresaDataUrl &&
+                      ' Se está usando la firma de empresa guardada en Tipos y firma.'}
+                  </p>
                 </div>
               )}
               <FirmaInput
                 label="Firma del cliente"
                 value={form.firmaClienteDataUrl}
                 onChange={(value) => update('firmaClienteDataUrl', value)}
-                onProcessingChange={setProcessingFirma}
+                onProcessingChange={setProcessingFirmaCliente}
                 disabled={saving}
               />
             </FormSection>
