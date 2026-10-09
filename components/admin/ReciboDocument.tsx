@@ -50,6 +50,7 @@ const ReciboDocument = forwardRef<HTMLDivElement, ReciboDocumentProps>(
     return (
       <div
         ref={ref}
+        data-recibo-document
         className={`recibo-document ${className}`}
         style={{
           position: 'relative',
