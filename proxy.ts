@@ -9,12 +9,14 @@ export async function proxy(request: NextRequest) {
   if (pathname === '/admin/login') return NextResponse.next();
   if (pathname.startsWith('/api/auth/')) return NextResponse.next();
 
-  // Proteger rutas admin y API de presupuestos/recibos
+  // Proteger rutas admin y API de presupuestos/recibos/garantías
   if (
     pathname.startsWith('/admin') ||
     pathname.startsWith('/api/presupuestos') ||
     pathname.startsWith('/api/recibos') ||
-    pathname.startsWith('/api/cuentas-recibos')
+    pathname.startsWith('/api/cuentas-recibos') ||
+    pathname.startsWith('/api/garantias') ||
+    pathname.startsWith('/api/tipos-garantia')
   ) {
     const token = request.cookies.get(SESSION_COOKIE)?.value;
 
@@ -35,6 +37,8 @@ export const config = {
     '/api/presupuestos/:path*',
     '/api/recibos/:path*',
     '/api/cuentas-recibos/:path*',
+    '/api/garantias/:path*',
+    '/api/tipos-garantia/:path*',
     '/api/auth/:path*',
   ],
 };
