@@ -44,7 +44,7 @@ export default function CuentaDeleteButton({ id, cliente }: { id: string; client
       <ConfirmModal
         open={open}
         title="¿Eliminar esta cuenta?"
-        description={`Estás por eliminar la cuenta de ${cliente}. Se borrarán también todos los recibos vinculados. Esta acción no se puede deshacer.`}
+        description={`Estás por eliminar la cuenta de ${cliente}. Se borrarán también todos los recibos y certificados de garantía vinculados. Esta acción no se puede deshacer.`}
         confirmLabel={loading ? 'Eliminando...' : 'Sí, eliminar'}
         cancelLabel="Cancelar"
         confirmVariant="danger"

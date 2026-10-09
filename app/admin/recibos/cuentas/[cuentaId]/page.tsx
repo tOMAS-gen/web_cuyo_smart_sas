@@ -7,6 +7,8 @@ import ReciboCuentaForm from '@/components/admin/ReciboCuentaForm';
 import ReciboDeleteButton from '@/components/admin/ReciboDeleteButton';
 import CuentaDeleteButton from './CuentaDeleteButton';
 import type { Recibo } from '@/types/recibo';
+import { getGarantiasByCuenta } from '@/lib/garantias-store';
+import { GarantiasSection } from '@/components/admin/garantias/GarantiasList';
 
 export const dynamic = 'force-dynamic';
 
@@ -38,9 +40,10 @@ export default async function CuentaReciboPage({
   const cuenta = await getCuentaRecibo(cuentaId);
   if (!cuenta) notFound();
 
-  const [recibos, resumen] = await Promise.all([
+  const [recibos, resumen, garantias] = await Promise.all([
     getRecibosByCuenta(cuentaId),
     getResumenCuentaRecibo(cuentaId, cuenta.montoTotal),
+    getGarantiasByCuenta(cuentaId),
   ]);
 
   const porcentaje = cuenta.montoTotal > 0 ? Math.min((resumen.entregado / cuenta.montoTotal) * 100, 100) : 0;
@@ -139,6 +142,10 @@ export default async function CuentaReciboPage({
             </p>
           </div>
         )}
+      </div>
+
+      <div className="mb-8">
+        <GarantiasSection garantias={garantias} href={`/admin/garantias/nueva?cuentaReciboId=${encodeURIComponent(cuentaId)}`} />
       </div>
 
       {/* Lista de recibos */}

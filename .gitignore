@@ -59,6 +59,14 @@ yarn-error.log*
 /data/cuentas-recibos.json
 /data/cuentas-recibos.json.tmp
 
+# datos de certificados de garantía (generados en runtime)
+/data/garantias.json
+/data/garantias.json.tmp
+/data/tipos-garantia.json
+/data/tipos-garantia.json.tmp
+/data/firma-empresa.json
+/data/firma-empresa.json.tmp
+
 # copias de seguridad locales de datos de producción (nunca al repo)
 /data_backups/
 

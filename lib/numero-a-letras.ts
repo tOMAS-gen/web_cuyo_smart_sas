@@ -87,6 +87,15 @@ function convertirEntero(n: number): string {
   return partes.join(' ');
 }
 
+/**
+ * Entero no negativo en letras, en minúsculas y sin unidad monetaria
+ * (p.ej. 10 -> "diez", 1 -> "un"). Usado por los certificados de garantía.
+ */
+export function enteroALetras(n: number): string {
+  if (!Number.isInteger(n) || n < 0) return '';
+  return convertirEntero(n);
+}
+
 function capitalizar(texto: string): string {
   if (!texto) return texto;
   return texto.charAt(0).toUpperCase() + texto.slice(1);

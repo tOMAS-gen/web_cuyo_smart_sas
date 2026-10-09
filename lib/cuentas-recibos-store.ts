@@ -3,6 +3,7 @@ import path from 'path';
 import { nanoid } from 'nanoid';
 import type { CuentaRecibo, CuentaReciboInput, ResumenCuentaRecibo } from '@/types/cuenta-recibo';
 import { getRecibosByCuenta, deleteRecibosByCuenta } from './recibos-store';
+import { deleteGarantiasByCuenta } from './garantias-store';
 
 const DATA_DIR = process.env.DATA_DIR || path.join(process.cwd(), 'data');
 const DB_FILE = path.join(DATA_DIR, 'cuentas-recibos.json');
@@ -66,6 +67,7 @@ export async function deleteCuentaRecibo(id: string): Promise<boolean> {
   // mitad de camino deja la cuenta todavía visible/borrable en vez de
   // recibos huérfanos referenciando una cuenta ya inexistente.
   await deleteRecibosByCuenta(id);
+  await deleteGarantiasByCuenta(id);
   db.cuentas.splice(index, 1);
   await writeDB(db);
   return true;

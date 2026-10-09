@@ -5,8 +5,8 @@
  * (data-model.md § 2.2, invariante 4).
  *
  * Invariantes (data-model.md § 2.2):
- * 1. El ancho y el alto mínimo son enteros. La exportación redondea hacia
- *    arriba el alto real del contenido para no recortar píxeles parciales.
+ * 1. El ancho y el alto mínimo son enteros. La exportación mide el alto real
+ *    y lo redondea hacia arriba para no recortar texto ni introducir franjas.
  * 2. `RECIBO_DOC.background` debe ser exactamente el mismo string que se pasa
  *    como `bgcolor` a `toBlob`; si divergen, reaparece la costura de FR-003.
  * 3. `EXPORT_SCALE` es una constante literal — derivarla de `devicePixelRatio`
@@ -17,11 +17,9 @@
  * 5. `@page` de `ReciboPrint` apunta a la hoja física real (A4 **vertical**);
  *    lo que se deriva de `RECIBO_DOC` es el **factor de escala de impresión**
  *    (`PRINT_TARGET_WIDTH_MM ÷ RECIBO_DOC.width`), nunca escrito a mano. El
- *    recibo es una tira compacta que ocupa el ancho completo de la hoja pero
- *    solo una porción corta de su alto — como un comprobante de papel real —,
- *    nunca la hoja entera (decisión de producto, no derivable de
- *    `RECIBO_DOC`). El alto mínimo impreso es ~6,5cm; el contenido extenso
- *    aumenta ese alto manteniendo el mismo ancho y tamaño de letra.
+ *    recibo ocupa el ancho útil de la hoja. El alto mínimo conserva la tira
+ *    compacta (~6,5 cm); el contenido largo
+ *    puede crecer y continuar en otra hoja sin truncarse.
  *
  * Valores de `COLORS` derivados de los tokens `@theme` de `app/globals.css`
  * (`--color-primary`, `--color-secondary`, `--color-tertiary`,
@@ -35,7 +33,7 @@ export const RECIBO_DOC = {
   footerHeight: 22,
   paddingTop: 12,
   paddingX: 24,
-  paddingBottom: 8,
+  paddingBottom: 12,
 } as const;
 
 /** Constante literal — nunca `devicePixelRatio` (FR-004). */
@@ -44,7 +42,9 @@ export const EXPORT_SCALE = 2;
 /**
  * Ancho impreso objetivo en A4 **vertical** (210×297mm) — el recibo ocupa el
  * ancho completo de la hoja (con un margen mínimo de impresión seguro a cada
- * lado). Su alto parte de ~6,5cm y crece cuando el contenido lo necesita.
+ * lado) pero, gracias a la proporción de `RECIBO_DOC`, solo una porción corta
+ * del alto (~6,5cm) — como un comprobante de papel real, nunca la hoja
+ * entera (decisión de producto).
  */
 export const PRINT_TARGET_WIDTH_MM = 190;
 
