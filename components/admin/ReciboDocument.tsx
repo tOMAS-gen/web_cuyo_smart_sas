@@ -35,40 +35,39 @@ interface ReciboDocumentProps {
  * no lleva `id`, porque un identificador global colisiona con el documento de
  * presupuesto.
  *
- * Layout: tira compacta horizontal (`RECIBO_DOC`, proporción ancho:alto
- * ancha) — como un comprobante de papel real, no una tarjeta apilada
- * verticalmente. Estilos inline con valores ya resueltos y **Flexbox en
+ * Layout: comprobante de ancho fijo y alto mínimo compacto, que crece para
+ * mostrar todo el contenido. Estilos inline con valores ya resueltos y **Flexbox en
  * todos los niveles** — el clon serializado dentro del `foreignObject` no ve
  * la hoja de Tailwind ni las custom properties del `:root`, y el soporte de
  * CSS Grid ahí es la fuente conocida de divergencia pantalla/imagen
  * (research.md § 5, plan.md § Complexity Tracking).
  *
- * Con un lienzo de alto fijo tan corto, los campos de texto libre (recibí de,
- * concepto, forma de pago) se truncan a una línea y observaciones/son-en-letras
- * a dos — igual que un recibo de papel real no tiene espacio infinito
- * (FR-009, FR-013).
+ * El concepto tiene una fila completa. Ningún dato se trunca: la referencia
+ * al presupuesto y el saldo suelen aparecer al final y deben llegar al cliente.
  */
 const ReciboDocument = forwardRef<HTMLDivElement, ReciboDocumentProps>(
   function ReciboDocument({ r, className = '' }, ref) {
     return (
       <div
         ref={ref}
-        className={className}
+        className={`recibo-document ${className}`}
         style={{
           position: 'relative',
           width: `${RECIBO_DOC.width}px`,
-          height: `${RECIBO_DOC.height}px`,
+          minHeight: `${RECIBO_DOC.minHeight}px`,
           backgroundColor: RECIBO_DOC.background,
           fontFamily: FONT.family,
           overflow: 'hidden',
           flexShrink: 0,
+          display: 'flex',
+          flexDirection: 'column',
           color: COLORS.navy,
         }}
       >
         <ReciboWaveAccent variant="header" />
         <div
           style={{
-            height: '100%',
+            flex: 1,
             boxSizing: 'border-box',
             padding: `${RECIBO_DOC.paddingTop}px ${RECIBO_DOC.paddingX}px ${RECIBO_DOC.paddingBottom}px`,
             display: 'flex',
@@ -77,7 +76,7 @@ const ReciboDocument = forwardRef<HTMLDivElement, ReciboDocumentProps>(
           }}
         >
           {/* Header: logo + contacto en una sola línea compacta */}
-          <header style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <header style={{ display: 'flex', alignItems: 'center', gap: '24px', breakInside: 'avoid' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/brand/logo_name_completo_dark.svg"
@@ -112,6 +111,7 @@ const ReciboDocument = forwardRef<HTMLDivElement, ReciboDocumentProps>(
               alignItems: 'center',
               justifyContent: 'space-between',
               gap: '16px',
+              breakInside: 'avoid',
             }}
           >
             <span style={{ fontSize: '15px', fontWeight: 800, color: COLORS.white, letterSpacing: '0.18em', flexShrink: 0 }}>
@@ -131,15 +131,13 @@ const ReciboDocument = forwardRef<HTMLDivElement, ReciboDocumentProps>(
             </div>
           </div>
 
-          {/* Cuerpo: todo en filas horizontales, nunca apiladas — el lienzo
-              es corto y ancho, como un recibo de papel real. */}
-          <main style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 0 }}>
-            {/* Fila de datos: 3 columnas con divisores verticales */}
+          <main style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '12px' }}>
             <div style={{ display: 'flex', alignItems: 'stretch' }}>
-              <FieldCol label="RECIBÍ DE" value={r.recibiDe} grow={1.1} emphasis />
-              <FieldCol label="EN CONCEPTO DE" value={r.concepto} grow={1.4} divider />
-              <FieldCol label="FORMA DE PAGO" value={formaPagoTexto(r)} grow={0.9} divider />
+              <FieldCol label="RECIBÍ DE" value={r.recibiDe} grow={2} emphasis />
+              <FieldCol label="FORMA DE PAGO" value={formaPagoTexto(r)} divider />
             </div>
+
+            <FieldCol label="EN CONCEPTO DE" value={r.concepto} grow={0} />
 
             {/* Bloque económico: importe en números y en letras, lado a lado
                 (FR-009) */}
@@ -179,11 +177,8 @@ const ReciboDocument = forwardRef<HTMLDivElement, ReciboDocumentProps>(
                     fontWeight: 700,
                     color: COLORS.navy,
                     lineHeight: 1.25,
-                    wordBreak: 'break-word',
-                    display: '-webkit-box',
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
+                    overflowWrap: 'anywhere',
+                    whiteSpace: 'pre-wrap',
                   }}
                 >
                   {r.montoEnLetras}
@@ -202,9 +197,8 @@ const ReciboDocument = forwardRef<HTMLDivElement, ReciboDocumentProps>(
                     fontSize: '11px',
                     lineHeight: 1.3,
                     color: COLORS.gray,
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
+                    whiteSpace: 'pre-wrap',
+                    overflowWrap: 'anywhere',
                   }}
                 >
                   {r.observaciones || ' '}
@@ -222,15 +216,14 @@ const ReciboDocument = forwardRef<HTMLDivElement, ReciboDocumentProps>(
           </main>
         </div>
 
-        {/* Footer: 1 px de sobre-recorrido recortado por el `overflow: hidden`
-            del contenedor raíz, para que el último renglón del canvas sea navy
-            puro (FR-002, research.md § 2) */}
+        {/* El pie queda en el flujo y nunca tapa el texto. El sangrado de 1 px
+            conserva el borde navy de la imagen exportada. */}
         <footer
           style={{
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            bottom: '-1px',
+            position: 'relative',
+            margin: '0 -1px -1px',
+            flexShrink: 0,
+            breakInside: 'avoid',
             height: `${RECIBO_DOC.footerHeight + 1}px`,
             background: COLORS.navy,
             display: 'flex',
@@ -250,9 +243,7 @@ const ReciboDocument = forwardRef<HTMLDivElement, ReciboDocumentProps>(
 
 export default ReciboDocument;
 
-/** Columna de dato dentro de la fila principal: rótulo arriba, valor abajo
- * truncado a una línea (el lienzo es corto y ancho, no hay espacio para
- * texto libre multilínea en esta fila). */
+/** Campo multilínea. Conserva saltos manuales y parte palabras largas. */
 function FieldCol({
   label,
   value,
@@ -269,7 +260,7 @@ function FieldCol({
   return (
     <div
       style={{
-        flex: grow,
+        flex: grow ? `${grow} 1 0%` : '0 0 auto',
         minWidth: 0,
         display: 'flex',
         flexDirection: 'column',
@@ -288,9 +279,9 @@ function FieldCol({
           fontSize: emphasis ? '15px' : '13px',
           fontWeight: emphasis ? 700 : 500,
           color: emphasis ? COLORS.navy : COLORS.gray,
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
+          whiteSpace: 'pre-wrap',
+          overflowWrap: 'anywhere',
+          lineHeight: 1.45,
         }}
       >
         {value}

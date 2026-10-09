@@ -5,8 +5,8 @@
  * (data-model.md § 2.2, invariante 4).
  *
  * Invariantes (data-model.md § 2.2):
- * 1. `RECIBO_DOC.width` y `RECIBO_DOC.height` son enteros — dimensiones
- *    fraccionarias reintroducen las franjas de FR-002.
+ * 1. El ancho y el alto mínimo son enteros. La exportación mide el alto real
+ *    y lo redondea hacia arriba para no recortar texto ni introducir franjas.
  * 2. `RECIBO_DOC.background` debe ser exactamente el mismo string que se pasa
  *    como `bgcolor` a `toBlob`; si divergen, reaparece la costura de FR-003.
  * 3. `EXPORT_SCALE` es una constante literal — derivarla de `devicePixelRatio`
@@ -17,12 +17,9 @@
  * 5. `@page` de `ReciboPrint` apunta a la hoja física real (A4 **vertical**);
  *    lo que se deriva de `RECIBO_DOC` es el **factor de escala de impresión**
  *    (`PRINT_TARGET_WIDTH_MM ÷ RECIBO_DOC.width`), nunca escrito a mano. El
- *    recibo es una tira compacta que ocupa el ancho completo de la hoja pero
- *    solo una porción corta de su alto — como un comprobante de papel real —,
- *    nunca la hoja entera (decisión de producto, no derivable de
- *    `RECIBO_DOC`). Por eso la proporción ancho:alto de `RECIBO_DOC` está
- *    fijada para igualar `PRINT_TARGET_WIDTH_MM` contra la altura impresa
- *    objetivo (~6,5cm): escalar por ancho ya produce el alto correcto.
+ *    recibo ocupa el ancho útil de la hoja. El alto mínimo conserva la tira
+ *    compacta (~6,5 cm); el contenido largo
+ *    puede crecer y continuar en otra hoja sin truncarse.
  *
  * Valores de `COLORS` derivados de los tokens `@theme` de `app/globals.css`
  * (`--color-primary`, `--color-secondary`, `--color-tertiary`,
@@ -31,12 +28,12 @@
 
 export const RECIBO_DOC = {
   width: 1002,
-  height: 340,
+  minHeight: 340,
   background: '#FFFFFF',
   footerHeight: 22,
   paddingTop: 12,
   paddingX: 24,
-  paddingBottom: 22,
+  paddingBottom: 12,
 } as const;
 
 /** Constante literal — nunca `devicePixelRatio` (FR-004). */

@@ -253,7 +253,8 @@ plan y decisiones de diseno de este modulo.
 `dom-to-image-more` siguiendo una receta no negociable:
 
 - `width`/`height` se pasan a `toBlob` ya en **pixeles finales**
-  (`RECIBO_DOC.width/height × EXPORT_SCALE`, p. ej. `1002×802 × 2 = 2004×1604`),
+  (ancho `RECIBO_DOC.width × EXPORT_SCALE` = 2004 px; alto CSS real del nodo,
+  redondeado hacia arriba, por `EXPORT_SCALE`),
   mientras que el nodo en pantalla se agranda con CSS
   `style.transform: scale(EXPORT_SCALE)` + `transformOrigin: 'top left'`. Asi
   `dom-to-image-more` hace un blit 1:1 sin remuestreo.
@@ -265,7 +266,11 @@ plan y decisiones de diseno de este modulo.
 - `EXPORT_SCALE` es una constante literal (nunca se deriva de
   `devicePixelRatio` ni del zoom del navegador), y `bgcolor` es siempre
   identico a `RECIBO_DOC.background`.
-- Antes de rasterizar es obligatorio esperar `await document.fonts.ready`: sin
+- El documento tiene ancho fijo de 1002 px y alto minimo de 340 px. El concepto
+  ocupa una fila completa y los campos permiten varias lineas; el alto crece
+  con el contenido. El pie participa del flujo para evitar superposiciones.
+- Antes de medir y rasterizar se espera la decodificacion de las imagenes y
+  `await document.fonts.ready`: sin
   eso, el `foreignObject` interno de `dom-to-image-more` maqueta el texto con
   metricas de fuente de fallback y los saltos de linea de la imagen exportada
   no coinciden con lo que se ve en pantalla.

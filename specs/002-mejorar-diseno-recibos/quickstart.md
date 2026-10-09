@@ -116,10 +116,11 @@ $img = [System.Drawing.Image]::FromFile("$HOME\Downloads\recibo-0001.png")
 $img.Dispose()
 ```
 
-**Esperado**: `2004 x 1604` — exactamente `RECIBO_DOC.width × 2` por
-`RECIBO_DOC.height × 2` (research.md § 2.2). Cualquier otro valor (1002×802,
-2005×1605, dimensiones fraccionarias redondeadas) indica que la receta de
-`width/height` + `style.transform` no está aplicada como se especificó.
+**Esperado**: ancho de `2004` px (`RECIBO_DOC.width × 2`) y alto de
+`Math.ceil(parseFloat(getComputedStyle(nodo).height)) × 2`, medido después de
+cargar fuentes e imágenes. El alto mínimo del documento es de 340 px y crece
+con el contenido. La altura fija de la especificación original queda reemplazada
+por este criterio para evitar recortes de texto.
 
 ### 2.3 Inspección de las cuatro orillas (FR-001, FR-003, SC-002)
 
@@ -175,7 +176,7 @@ input.click();
 
 | Muestra | Resultado aceptable | Resultado que FALLA |
 |---|---|---|
-| `size` | `2004x1604` | cualquier otro |
+| `size` | `2004 × alto CSS redondeado × 2` | ancho o alto distinto del calculado en § 2.2 |
 | fila `0` (superior) | solo `#FFFFFF` | cualquier gris/color adicional |
 | fila `H-1` (inferior) | solo `#0B1C3E` (navy puro del pie) | `#FFFFFF`, `#F...`, o cualquier tono intermedio → es la costura de FR-003 |
 | fila `H-2` (inferior) | solo `#0B1C3E` | idem |
@@ -200,7 +201,8 @@ aparece, la corrección no está aplicada.
    hashes pueden diferir por metadatos del encoder; las dimensiones y el muestreo
    de orillas **no** deben diferir).
 2. Repetir con **zoom del navegador al 50 %, 100 % y 150 %** (`Ctrl+-` / `Ctrl+0`
-   / `Ctrl++`). Las tres exportaciones deben dar `2004x1604` y pasar § 2.3.
+   / `Ctrl++`). Las tres exportaciones deben mantener el ancho de 2004 px,
+   mostrar todo el contenido y pasar § 2.2 y § 2.3.
 3. Repetir en un monitor con distinto `devicePixelRatio` si está disponible (o
    emulando DPR desde DevTools → Rendering). El resultado no debe cambiar.
 4. Repetir el ciclo completo en Firefox.
@@ -242,7 +244,7 @@ Ejecutar § 2.1 + § 2.2 + § 2.3 (método B) sobre los **10 casos** de la matri
 
 | Caso | `size` | Orillas limpias | Contenido completo | Resultado |
 |---|---|---|---|---|
-| 1..10 | `2004x1604` | sí | sí | ✅ |
+| 1..10 | `2004 × alto CSS redondeado × 2` | sí | sí | ✅ |
 
 **Criterio de aceptación (SC-001, SC-002)**: **10/10** casos sin ningún defecto de
 borde y sin píxeles de contenido recortado ni margen sobrante. Un solo fallo
@@ -289,8 +291,13 @@ Verificaciones específicas de la impresión:
 
 - El **pie navy aparece en el PDF** con su fondo de color. Si sale blanco, se
   perdió `print-color-adjust: exact` (research.md § 7).
-- La página del PDF tiene **exactamente** la proporción del documento, sin margen
-  extra ni corte: el `@page { size }` se deriva de `RECIBO_DOC`, no de literales.
+- El PDF usa papel **A4 vertical** y escala el ancho del recibo a 190 mm. Si el
+  contenido supera una página, continúa en las siguientes sin recortar texto.
+- Probar el concepto: «Entrega a cuenta del presupuesto N.º 0064, correspondiente
+  a trabajos de reparación e impermeabilización de techo, quedando un saldo
+  pendiente de $ 450.000,00». La referencia y el saldo deben verse completos
+  en pantalla, PNG y PDF. Repetir con varias líneas de concepto y observaciones
+  largas; el pie no debe superponerse al texto.
 
 ### 3.2 Jerarquía visual e identidad (FR-009, FR-010, SC-007)
 

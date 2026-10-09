@@ -22,7 +22,7 @@ export default function ReciboDetalle({
   const docRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="max-w-[1040px] mx-auto px-4 py-6">
+    <div className="recibo-detail max-w-[1040px] mx-auto px-4 py-6">
       {/* Barra de acciones */}
       <div className="flex items-center justify-between gap-2 flex-wrap mb-6 print:hidden">
         <Link
@@ -49,8 +49,8 @@ export default function ReciboDetalle({
         </div>
       )}
 
-      {/* Documento imprimible: tamaño fijo, scroll horizontal en el contenedor */}
-      <div className="overflow-x-auto">
+      {/* Ancho fijo y alto adaptable al contenido. */}
+      <div className="overflow-x-auto print:overflow-visible">
         <ReciboPrint ref={docRef} r={r} />
       </div>
     </div>
