@@ -52,6 +52,7 @@ en `lib/garantia-logic.ts`.
   "fechaEmision": "2026-10-09",
   "observaciones": "",
   "incluirFirmaEmpresa": true,
+  "firmaEmpresaDataUrl": "data:image/png;base64,...",
   "firmaClienteDataUrl": "data:image/png;base64,..."
 }
 ```

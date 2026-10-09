@@ -150,6 +150,25 @@ check('firma demasiado grande',
   G.validarFirmaDataUrl('data:image/png;base64,' + 'A'.repeat(Math.ceil(G.FIRMA_MAX_BYTES * 4 / 3) + 8)) !== null, true);
 check('firma cliente invalida en certificado',
   G.validarGarantiaInput({ ...base, firmaClienteDataUrl: 'nope' }).errors.length, 1);
+check('firma empresa invalida en certificado',
+  G.validarGarantiaInput({ ...base, firmaEmpresaDataUrl: 'nope' }).errors[0],
+  'Firma de la empresa: La firma debe ser una imagen PNG, JPG o WEBP');
+check('firma empresa demasiado grande en certificado',
+  G.validarGarantiaInput({ ...base, firmaEmpresaDataUrl: 'data:image/png;base64,' + 'A'.repeat(Math.ceil(G.FIRMA_MAX_BYTES * 4 / 3) + 8) }).input,
+  null);
+{
+  const firmaEmpresaDataUrl = 'data:image/png;base64,iVBORw0KGgo=';
+  const firmaClienteDataUrl = 'data:image/jpeg;base64,YWJjZA==';
+  const { input } = G.validarGarantiaInput({ ...base, firmaEmpresaDataUrl, firmaClienteDataUrl });
+  const datos = G.completarGarantia(input);
+  check('firma empresa se conserva al guardar', datos.firmaEmpresaDataUrl, firmaEmpresaDataUrl);
+  check('firma cliente independiente de empresa', datos.firmaClienteDataUrl, firmaClienteDataUrl);
+  check('certificados anteriores sin firma propia siguen validos',
+    G.validarGarantiaInput(base).input.firmaEmpresaDataUrl, undefined);
+  check('quitar firma empresa borra imagen guardada',
+    G.validarGarantiaInput({ ...base, firmaEmpresaDataUrl: '', incluirFirmaEmpresa: false }).input.firmaEmpresaDataUrl,
+    undefined);
+}
 
 // --- Tipos de garantía ---
 check('tipo valido', G.validarTipoGarantiaInput({

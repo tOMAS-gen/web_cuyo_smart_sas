@@ -42,6 +42,7 @@ igual que el resto de los stores.
 | `fechaEmision` | YYYY-MM-DD | sí | |
 | `observaciones` | string | no | |
 | `incluirFirmaEmpresa` | boolean | sí | `false` si no viene |
+| `firmaEmpresaDataUrl` | string | no | Firma propia del certificado; mismo formato y límite que la firma del cliente. Tiene prioridad sobre la firma global cuando `incluirFirmaEmpresa` es `true` |
 | `firmaClienteDataUrl` | string | no | `data:image/(png\|jpeg\|webp);base64,...`, ≤ 300 KB decodificados |
 | `creadoEn` / `actualizadoEn` | ISO datetime | sí | **Server** |
 
@@ -56,7 +57,9 @@ Campos: `id`, `nombre`, `trabajosGarantizados`, `aniosPorDefecto` (de 1 a 50),
 ## FirmaEmpresa
 
 `{ dataUrl, actualizadoEn }`. Es una sola firma global y no se copia en los
-certificados.
+certificados. Se usa cuando el certificado incluye firma de empresa y no tiene
+`firmaEmpresaDataUrl`. Dibujar o subir una firma desde el certificado guarda
+una firma propia sin modificar la global ni otros certificados.
 
 ## Placeholders en `alcance` / `exclusiones`
 

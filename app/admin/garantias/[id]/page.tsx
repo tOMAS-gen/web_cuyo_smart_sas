@@ -27,7 +27,7 @@ export default async function GarantiaPage({ params }: { params: Promise<{ id: s
         <p className="text-xs text-gray-500">
           Formato A4. Para descargarlo, elegí «Guardar como PDF» en la ventana de impresión.
         </p>
-        {garantia.incluirFirmaEmpresa && !firma && (
+        {garantia.incluirFirmaEmpresa && !garantia.firmaEmpresaDataUrl && !firma && (
           <p
             role="status"
             className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900"
