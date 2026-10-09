@@ -72,9 +72,9 @@ function pngEdgeColors(pngBuffer) {
 }
 
 async function login(page) {
-  const env = readFileSync('.env.local', 'utf8');
-  const username = /ADMIN_USERNAME=(.*)/.exec(env)[1].trim();
-  const password = /ADMIN_PASSWORD=(.*)/.exec(env)[1].trim();
+  const env = process.env.ADMIN_USERNAME && process.env.ADMIN_PASSWORD ? '' : readFileSync('.env.local', 'utf8');
+  const username = process.env.ADMIN_USERNAME || /ADMIN_USERNAME=(.*)/.exec(env)[1].trim();
+  const password = process.env.ADMIN_PASSWORD || /ADMIN_PASSWORD=(.*)/.exec(env)[1].trim();
   await page.goto(`${BASE_URL}/admin/login`, { waitUntil: 'networkidle' });
   await page.fill('input[type="text"]', username);
   await page.fill('input[type="password"]', password);
@@ -143,8 +143,38 @@ async function main() {
   }
   if (reciboHref) {
     await page.goto(`${BASE_URL}${reciboHref}`, { waitUntil: 'networkidle' });
-    await page.waitForTimeout(300);
-    await checkExport(page, 'Recibo', 'Exportar imagen', [2004, 680]);
+    const receipt = await page.evaluate(async () => {
+      await document.fonts.ready;
+      const doc = document.querySelector('[data-recibo-document]');
+      if (!doc) throw new Error('No se encontró el documento del recibo');
+      await Promise.all(Array.from(doc.querySelectorAll('img'), (img) => img.decode().catch(() => undefined)));
+      const rect = doc.getBoundingClientRect();
+      const footer = doc.querySelector('footer').getBoundingClientRect();
+      const clipped = Array.from(doc.querySelectorAll('span')).filter((el) => {
+        if (!el.textContent.trim()) return false;
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const text = range.getBoundingClientRect();
+        const box = el.getBoundingClientRect();
+        return text.right > box.right + 1 || text.bottom > box.bottom + 2 ||
+          text.left < rect.left || text.right > rect.right || text.bottom > rect.bottom;
+      }).map((el) => el.textContent);
+      const main = doc.querySelector('main');
+      const rows = Array.from(main.children).map((el) => el.getBoundingClientRect());
+      return {
+        width: doc.offsetWidth,
+        height: Math.max(doc.scrollHeight, Math.ceil(parseFloat(getComputedStyle(doc).height))),
+        clipped,
+        separated: rows.every((row, i) => !i || row.top >= rows[i - 1].bottom + 11),
+        footerAfterContent: footer.top >= main.getBoundingClientRect().bottom,
+        footerAtBottom: Math.abs(footer.bottom - rect.bottom) < 1,
+      };
+    });
+    check('ancho fijo y alto adaptable', receipt.width === 1002 && receipt.height >= 340);
+    check('todos los textos completos', receipt.clipped.length === 0, receipt.clipped.join(', '));
+    check('filas separadas sin superposición', receipt.separated);
+    check('pie después del contenido y al borde inferior', receipt.footerAfterContent && receipt.footerAtBottom);
+    await checkExport(page, 'Recibo', 'Exportar imagen', [receipt.width * 2, receipt.height * 2]);
 
     // A4 print check — el viewport se fija al tamaño real de una hoja A4
     // vertical (210x297mm a 96dpi) para que `position:fixed;inset:0` mida
@@ -154,9 +184,7 @@ async function main() {
     await page.emulateMedia({ media: 'print' });
     const measurements = await page.evaluate(() => {
       const pageEl = document.querySelector('.recibo-print-page');
-      const docEl = Array.from(document.querySelectorAll('div')).find(
-        (el) => el.style.width === '1002px' && el.style.height === '340px'
-      );
+      const docEl = document.querySelector('[data-recibo-document]');
       if (!pageEl || !docEl) return null;
       const pageRect = pageEl.getBoundingClientRect();
       const docRect = docEl.getBoundingClientRect();
@@ -181,7 +209,7 @@ async function main() {
       // impresoras reales; "ancho completo" es relativo a ese margen mínimo.
       check('ocupa el ancho completo (margen lateral mínimo de impresión)', measurements.marginLeft < 45, `L=${measurements.marginLeft.toFixed(1)}px`);
       check('ubicado arriba de la hoja (margen superior chico, ~10mm)', measurements.marginTop < 45, `T=${measurements.marginTop.toFixed(1)}px`);
-      check('ocupa solo una porción corta del alto (hay margen inferior real)', measurements.marginBottom > 300, `B=${measurements.marginBottom.toFixed(1)}px`);
+      check('el contenido completo cabe en la hoja', measurements.marginBottom > 0, `B=${measurements.marginBottom.toFixed(1)}px`);
     } else {
       failures++;
       console.log('  FAIL no se encontraron los elementos de impresión (.recibo-print-page)');
