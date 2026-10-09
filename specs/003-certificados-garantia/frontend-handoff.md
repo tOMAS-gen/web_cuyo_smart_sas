@@ -1,8 +1,9 @@
 # Handoff Frontend: Certificados de Garantía
 
-El backend está terminado y verificado. Este documento cubre todo lo que falta del
-lado de la UI. Contrato de la API: `contracts/garantias-api.md`. Modelo:
-`data-model.md`.
+Backend y frontend implementados. Este documento conserva los requisitos de la UI
+como referencia. Las pantallas viven en `app/admin/garantias` y los componentes en
+`components/admin/garantias`. Ver `quickstart.md` para la verificación del flujo.
+Contrato de la API: `contracts/garantias-api.md`. Modelo: `data-model.md`.
 
 ## Qué reutilizar (no reimplementar)
 

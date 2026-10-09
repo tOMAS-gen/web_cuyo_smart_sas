@@ -8,7 +8,7 @@ export default function DeleteButton({ id }: { id: string }) {
   const [loading, setLoading] = useState(false);
 
   async function handleDelete() {
-    if (!confirm('¿Eliminar este presupuesto? Esta acción no se puede deshacer.')) return;
+    if (!confirm('¿Eliminar este presupuesto? Se borrarán también todos los recibos y certificados de garantía vinculados. Esta acción no se puede deshacer.')) return;
     setLoading(true);
     try {
       const res = await fetch(`/api/presupuestos/${id}`, { method: 'DELETE' });

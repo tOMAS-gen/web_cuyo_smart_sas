@@ -4,6 +4,8 @@ import { getRecibosByPresupuesto, getResumenPresupuesto } from '@/lib/recibos-st
 import PresupuestoDocumentPanel from './PresupuestoDocumentPanel';
 import ReciboForm from './ReciboForm';
 import ReciboLista from './ReciboLista';
+import { getGarantiasByPresupuesto } from '@/lib/garantias-store';
+import { GarantiasSection } from '@/components/admin/garantias/GarantiasList';
 
 export const dynamic = 'force-dynamic';
 
@@ -25,9 +27,10 @@ export default async function PresupuestoPage({
   const p = await getPresupuesto(id);
   if (!p) notFound();
 
-  const [recibos, resumen] = await Promise.all([
+  const [recibos, resumen, garantias] = await Promise.all([
     getRecibosByPresupuesto(p.id),
     getResumenPresupuesto(p.id, p.total),
+    getGarantiasByPresupuesto(p.id),
   ]);
 
   const porcentaje = p.total > 0 ? Math.min((resumen.entregado / p.total) * 100, 100) : 0;
@@ -45,6 +48,8 @@ export default async function PresupuestoPage({
 
       {/* Barra de acciones + documento imprimible/exportable (fuente única, research.md § 4) */}
       <PresupuestoDocumentPanel p={p} />
+
+      <GarantiasSection garantias={garantias} href={`/admin/garantias/nueva?presupuestoId=${encodeURIComponent(p.id)}`} />
 
       {/* Sección de Recibos */}
       <div className="mt-8 print:hidden">
